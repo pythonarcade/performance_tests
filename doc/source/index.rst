@@ -12,3 +12,4 @@ The documentation and timings can be recreated by anyone.
 
    how_to_recreate
    draw_moving_sprites/index
+   collision/index
