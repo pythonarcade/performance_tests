@@ -14,7 +14,7 @@ print("--- Draw Moving Arcade")
 arcade_tests.draw_moving_sprites.main()
 
 # print("--- Draw Moving Pygame")
-# pygame_1_9_tests.draw_moving_sprites.main()
+pygame_1_9_tests.draw_moving_sprites.main()
 
 # Collision tests
 print("--- Collision Arcade")

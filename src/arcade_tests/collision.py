@@ -138,11 +138,12 @@ class MyGameCollision(arcade.Window):
             image = arcade.get_image()
             image.save(RESULTS_IMAGE, 'PNG')
             self.close()
+            import pyglet
+            pyglet.app.exit()
 
 
 def main():
     """ Main method """
-    print("222222222222")
     window = MyGameCollision()
     window.setup()
     arcade.run()
