@@ -3,13 +3,17 @@ import statistics
 
 
 class PerformanceTiming:
-    def __init__(self, results_file):
+    def __init__(self, results_file, start_n, increment_n, end_time):
         self.program_start_time = timeit.default_timer()
         self.results_file = open(results_file, "w")
         self.last_report = 0
         self.start_timers = {}
         self.timing_lists = {}
         self.first_line = True
+
+        self.start_n = start_n
+        self.increment_n = increment_n
+        self.end_time = end_time
 
     @property
     def total_program_time(self):
@@ -18,10 +22,10 @@ class PerformanceTiming:
 
     @property
     def target_n(self):
-        return int(self.total_program_time + 0.5) * 100
+        return int(self.total_program_time + 0.5) * self.increment_n + self.start_n
 
     def end_run(self):
-        if self.total_program_time > 60:
+        if self.total_program_time > self.end_time:
             self.results_file.close()
             return True
         else:
