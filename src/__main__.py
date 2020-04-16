@@ -8,13 +8,19 @@ import pygame_1_9_tests.collision
 
 import generate_graphs
 
+
 # Draw Moving Sprites Tests
+print("--- Draw Moving Arcade")
 arcade_tests.draw_moving_sprites.main()
-pygame_1_9_tests.draw_moving_sprites.main()
+
+# print("--- Draw Moving Pygame")
+# pygame_1_9_tests.draw_moving_sprites.main()
 
 # Collision tests
-arcade_tests.draw_moving_sprites.main()
-pygame_1_9_tests.draw_moving_sprites.main()
+print("--- Collision Arcade")
+arcade_tests.collision.main()
+print("--- Collision Pygame")
+pygame_1_9_tests.collision.main()
 
 # Generate the graphs
 generate_graphs.main()

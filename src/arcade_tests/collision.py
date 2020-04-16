@@ -29,13 +29,15 @@ RESULTS_FILE = "../../result_data/arcade/collision.csv"
 RESULTS_IMAGE = "../../result_data/arcade/collision.png"
 
 
-class MyGame(arcade.Window):
+class MyGameCollision(arcade.Window):
     """ Our custom Window Class"""
 
     def __init__(self):
         """ Initializer """
         # Call the parent class initializer
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+
+        arcade.cleanup_texture_cache()
 
         # Set the working directory (where we expect to find files) to the same
         # directory this .py file is in. You can leave this out of your own
@@ -58,6 +60,8 @@ class MyGame(arcade.Window):
 
         # Open file to save timings
         self.results_file = open(RESULTS_FILE, "w")
+
+        self.frame = 0
 
     def add_coins(self, amount):
 
@@ -138,7 +142,8 @@ class MyGame(arcade.Window):
 
 def main():
     """ Main method """
-    window = MyGame()
+    print("222222222222")
+    window = MyGameCollision()
     window.setup()
     arcade.run()
 

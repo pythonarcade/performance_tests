@@ -53,9 +53,19 @@ class PerformanceTiming:
         if int(current_time) > int(self.last_report):
             exact_time = current_time - self.last_report
             self.last_report = current_time
-            draw_time = statistics.mean(self.timing_lists['draw'])
-            update_time = statistics.mean(self.timing_lists['update'])
-            fps = len(self.timing_lists['draw']) / exact_time
+            if 'draw' not in self.timing_lists:
+                draw_time = 0
+            else:
+                draw_time = statistics.mean(self.timing_lists['draw'])
+
+            if 'update' not in self.timing_lists:
+                update_time = 0
+                update_count = 0
+            else:
+                update_time = statistics.mean(self.timing_lists['update'])
+                update_count = len(self.timing_lists['update'])
+
+            fps = update_count / exact_time
             output = f"{int(current_time)}, {fps:.1f}, {self.target_n}, {draw_time:.6f}, {update_time:.6f}"
             print(output)
             self.results_file.write(output)

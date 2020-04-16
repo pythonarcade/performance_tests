@@ -40,6 +40,8 @@ class MyGame(arcade.Window):
         # Call the parent class initializer
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
 
+        arcade.cleanup_texture_cache()
+
         # Set the working directory (where we expect to find files) to the same
         # directory this .py file is in. You can leave this out of your own
         # code, but it is needed to easily run the examples using "python -m"
@@ -131,10 +133,12 @@ class MyGame(arcade.Window):
 
 
 def main():
+    print("1111111111")
     """ Main method """
     window = MyGame()
     window.setup()
     arcade.run()
+    arcade.set_window(None)
 
 
 if __name__ == "__main__":
