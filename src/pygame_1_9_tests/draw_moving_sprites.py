@@ -119,7 +119,7 @@ class MyGame:
         """ Draw everything """
 
         # Start timing how long this takes
-        self.performance_timing.start_draw_timer()
+        self.performance_timing.start_timer('draw')
 
         # Clear the screen
         self.screen.fill((59, 122, 87))
@@ -130,11 +130,11 @@ class MyGame:
         pygame.display.flip()
 
         # Stop timing how long this takes
-        self.performance_timing.stop_draw_timer()
+        self.performance_timing.stop_timer('draw')
 
     def update(self, _delta_time):
         # Start update timer
-        self.performance_timing.start_update_timer()
+        self.performance_timing.start_timer('update')
 
         self.coin_list.update()
 
@@ -150,16 +150,12 @@ class MyGame:
                 sprite.change_y *= -1
 
         # Stop timing the update
-        self.performance_timing.stop_update_timer()
+        self.performance_timing.stop_timer('update')
 
         # Figure out if we need more coins
         if self.performance_timing.target_n > len(self.coin_list):
             new_coin_amount =  self.performance_timing.target_n - len(self.coin_list)
             self.add_coins(new_coin_amount)
-
-        # End the program run
-        if self.performance_timing.end_run():
-            self.close()
 
 def main():
     """ Main method """

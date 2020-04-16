@@ -85,7 +85,7 @@ class MyGame(arcade.Window):
         """ Draw everything """
 
         # Start timing how long this takes
-        self.performance_timing.start_draw_timer()
+        self.performance_timing.start_timer('draw')
 
         # Clear the screen
         arcade.start_render()
@@ -94,11 +94,11 @@ class MyGame(arcade.Window):
         self.coin_list.draw()
 
         # Stop timing how long this takes
-        self.performance_timing.stop_draw_timer()
+        self.performance_timing.stop_timer('draw')
 
     def update(self, delta_time):
         # Start update timer
-        self.performance_timing.start_update_timer()
+        self.performance_timing.start_timer('update')
 
         self.coin_list.update()
 
@@ -114,7 +114,7 @@ class MyGame(arcade.Window):
                 sprite.change_y *= -1
 
         # Stop timing the update
-        self.performance_timing.stop_update_timer()
+        self.performance_timing.stop_timer('update')
 
         # Figure out if we need more coins
         if self.performance_timing.target_n > len(self.coin_list):

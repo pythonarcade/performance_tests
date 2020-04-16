@@ -4,16 +4,21 @@ import matplotlib.pyplot as plt
 
 FPS = 1
 SPRITE_COUNT = 2
-PROCESSING_TIME = 3
-DRAWING_TIME = 4
+DRAWING_TIME = 3
+PROCESSING_TIME = 4
 
 
 def read_results(filename):
     results = []
     with open(filename) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
+        first_row = True
         for row in csv_reader:
-            results.append([float(cell) for cell in row])
+            if first_row:
+                first_row = False
+            else:
+                results.append([float(cell) for cell in row])
+
         return results
 
 
