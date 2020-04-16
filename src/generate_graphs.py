@@ -7,6 +7,7 @@ SPRITE_COUNT = 2
 PROCESSING_TIME = 3
 DRAWING_TIME = 4
 
+
 def read_results(filename):
     results = []
     with open(filename) as csv_file:
@@ -14,6 +15,7 @@ def read_results(filename):
         for row in csv_reader:
             results.append([float(cell) for cell in row])
         return results
+
 
 def chart_stress_test_draw_moving():
     results_arcade = read_results("../result_data/arcade/draw_moving_sprites.csv")
@@ -68,10 +70,13 @@ def chart_stress_test_draw_moving():
     plt.savefig("../result_charts/draw_moving_sprites/fps_comparison.svg")
     plt.clf()
 
+
 def main():
     file_path = os.path.dirname(os.path.abspath(__file__))
     os.chdir(file_path)
 
     chart_stress_test_draw_moving()
 
-main()
+
+if __name__ == "__main__":
+    main()
