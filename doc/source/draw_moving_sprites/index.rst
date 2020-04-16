@@ -3,12 +3,12 @@ Draw Moving Sprites
 
 This is a benchmark for testing how fast moving sprites can be drawn to the screen.
 
-.. figure:: ../../result_data/arcade/draw_moving_sprites.png
+.. figure:: ../../../result_data/arcade/draw_moving_sprites.png
     :width: 25%
 
     Screenshot from Arcade moving sprites
 
-.. figure:: ../../result_data/pygame/draw_moving_sprites.png
+.. figure:: ../../../result_data/pygame/draw_moving_sprites.png
     :width: 25%
 
     Screenshot from Pygame moving sprites
@@ -24,14 +24,25 @@ Important Notes:
   which adds some complexity to the code. If this isn't done, there is a
   noticeable pause every time new coins are added.
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Source Code:
 
-.. image:: ../../result_charts/draw_moving_sprites/fps_comparison.svg
+   pygame_source
+   arcade_source
 
-.. image:: ../../result_charts/draw_moving_sprites/time_to_draw_comparison.svg
+.. figure:: ../../../result_charts/draw_moving_sprites/fps_comparison.svg
 
-.. image:: ../../result_charts/draw_moving_sprites/time_to_move_comparison.svg
+    This shows Frames-Per-Second vs. number of sprites. Once the FPS starts
+    dropping much below 60 FPS, the users will notice the game slow down.
+    Practically, the number of moving sprites should be kept above this
+    drop-off number.
 
-.. image:: ../../result_charts/draw_moving_sprites/arcade.svg
+.. image:: ../../../result_charts/draw_moving_sprites/time_to_draw_comparison.svg
 
-.. image:: ../../result_charts/draw_moving_sprites/pygame.svg
+.. image:: ../../../result_charts/draw_moving_sprites/time_to_move_comparison.svg
+
+.. image:: ../../../result_charts/draw_moving_sprites/arcade.svg
+
+.. image:: ../../../result_charts/draw_moving_sprites/pygame.svg
 
