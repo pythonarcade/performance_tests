@@ -15,9 +15,7 @@ from performance_timing import PerformanceTiming
 SPRITE_SCALING_COIN = 0.25
 SPRITE_NATIVE_SIZE = 128
 SPRITE_SIZE = int(SPRITE_NATIVE_SIZE * SPRITE_SCALING_COIN)
-COIN_COUNT_INCREMENT = 500
 
-STOP_COUNT = 10000
 RESULTS_FILE = "../../result_data/arcade/draw_moving_sprites.csv"
 RESULTS_IMAGE = "../../result_data/arcade/draw_moving_sprites.png"
 SCREEN_WIDTH = 1800
