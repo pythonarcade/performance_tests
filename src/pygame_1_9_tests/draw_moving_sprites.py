@@ -25,9 +25,10 @@ COIN_COUNT_INCREMENT = 500
 
 STOP_COUNT = 10000
 RESULTS_FILE = "../../result_data/pygame/draw_moving_sprites.csv"
+RESULTS_IMAGE = "../../result_data/pygame/draw_moving_sprites.png"
 SCREEN_WIDTH = 1800
 SCREEN_HEIGHT = 1000
-SCREEN_TITLE = "Moving Sprite Stress Test"
+SCREEN_TITLE = "Pygame - Moving Sprite Stress Test"
 
 
 class Coin(pygame.sprite.Sprite):
@@ -36,21 +37,30 @@ class Coin(pygame.sprite.Sprite):
     It derives from the "Sprite" class in Pygame
     """
 
+    # Static coin image
+    coin_image = None
+
     def __init__(self):
         """ Constructor. Pass in the color of the block,
         and its x and y position. """
         # Call the parent class (Sprite) constructor
         super().__init__()
 
-        # Create an image of the block, and fill it with a color.
-        # This could also be an image loaded from the disk.
-        image = pygame.image.load("../resources/coinGold.png")
-        rect = image.get_rect()
-        image = pygame.transform.scale(
-            image,
-            (int(rect.width * SPRITE_SCALING_COIN), int(rect.height * SPRITE_SCALING_COIN)))
-        self.image = image.convert()
-        self.image.set_colorkey(BLACK)
+        # In Pygame, if we load and scale a coin image every time we create a sprite,
+        # this will result in a noticeable performance hit. Therefore we do it once,
+        # and re-use that image over-and-over.
+        if Coin.coin_image is None:
+            # Create an image of the block, and fill it with a color.
+            # This could also be an image loaded from the disk.
+            Coin.coin_image = pygame.image.load("../resources/coinGold.png")
+            rect = Coin.coin_image.get_rect()
+            Coin.coin_image = pygame.transform.scale(
+                Coin.coin_image,
+                (int(rect.width * SPRITE_SCALING_COIN), int(rect.height * SPRITE_SCALING_COIN)))
+            Coin.coin_image.convert()
+            Coin.coin_image.set_colorkey(BLACK)
+
+        self.image = Coin.coin_image
 
         # Fetch the rectangle object that has the dimensions of the image
         # image.
@@ -88,6 +98,7 @@ class MyGame:
 
         # Initialize Pygame
         pygame.init()
+        pygame.display.set_caption(SCREEN_TITLE)
 
         # Set the height and width of the screen
         self.screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
@@ -154,8 +165,9 @@ class MyGame:
 
         # Figure out if we need more coins
         if self.performance_timing.target_n > len(self.coin_list):
-            new_coin_amount =  self.performance_timing.target_n - len(self.coin_list)
+            new_coin_amount = self.performance_timing.target_n - len(self.coin_list)
             self.add_coins(new_coin_amount)
+
 
 def main():
     """ Main method """
@@ -168,7 +180,7 @@ def main():
     clock = pygame.time.Clock()
 
     # -------- Main Program Loop -----------
-    while not window.performance_timing.end_run():
+    while not window.performance_timing.end_run() and not done:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
@@ -176,6 +188,7 @@ def main():
         window.on_draw()
         clock.tick(60)
 
+    pygame.image.save(window, RESULTS_IMAGE)
     pygame.quit()
 
 

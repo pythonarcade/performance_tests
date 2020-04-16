@@ -19,10 +19,10 @@ COIN_COUNT_INCREMENT = 500
 
 STOP_COUNT = 10000
 RESULTS_FILE = "../../result_data/arcade/draw_moving_sprites.csv"
-
+RESULTS_IMAGE = "../../result_data/arcade/draw_moving_sprites.png"
 SCREEN_WIDTH = 1800
 SCREEN_HEIGHT = 1000
-SCREEN_TITLE = "Moving Sprite Stress Test"
+SCREEN_TITLE = "Arcade - Moving Sprite Stress Test"
 
 
 class Coin(arcade.Sprite):
@@ -123,6 +123,8 @@ class MyGame(arcade.Window):
 
         # End the program run
         if self.performance_timing.end_run():
+            image = arcade.get_image()
+            image.save(RESULTS_IMAGE, 'PNG')
             self.close()
 
 

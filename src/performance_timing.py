@@ -7,7 +7,6 @@ class PerformanceTiming:
         self.program_start_time = timeit.default_timer()
         self.results_file = open(results_file, "w")
         self.last_report = 0
-        self.frame_count = 0
         self.start_timers = {}
         self.timing_lists = {}
         self.first_line = True
@@ -23,6 +22,7 @@ class PerformanceTiming:
 
     def end_run(self):
         if self.total_program_time > 60:
+            self.results_file.close()
             return True
         else:
             return False
@@ -32,10 +32,9 @@ class PerformanceTiming:
 
     def stop_timer(self, timer_name):
         time = timeit.default_timer() - self.start_timers[timer_name]
-        if not timer_name in self.timing_lists:
+        if timer_name not in self.timing_lists:
             self.timing_lists[timer_name] = []
         self.timing_lists[timer_name].append(time)
-        self.frame_count += 1
         self.report()
 
     def report(self):
@@ -52,8 +51,7 @@ class PerformanceTiming:
             self.last_report = current_time
             draw_time = statistics.mean(self.timing_lists['draw'])
             update_time = statistics.mean(self.timing_lists['update'])
-            fps = self.frame_count / exact_time
-            self.frame_count = 0
+            fps = len(self.timing_lists['draw']) / exact_time
             output = f"{int(current_time)}, {fps:.1f}, {self.target_n}, {draw_time:.6f}, {update_time:.6f}"
             print(output)
             self.results_file.write(output)
