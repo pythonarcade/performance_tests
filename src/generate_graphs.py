@@ -89,9 +89,10 @@ def chart_stress_test_draw_moving():
     plt.clf()
 
     # FPS comparison
+    # Some of the initial values are often wonky, so skip those
     plt.title("FPS Comparison")
-    plt.plot(sprite_count_arcade[2:], fps_arcade[2:], label="Arcade")
-    plt.plot(sprite_count_pygame[2:], fps_pygame[2:], label="Pygame")
+    plt.plot(sprite_count_arcade[3:], fps_arcade[3:], label="Arcade")
+    plt.plot(sprite_count_pygame[3:], fps_pygame[3:], label="Pygame")
 
     plt.legend(loc='lower left', shadow=True, fontsize='x-large')
 
