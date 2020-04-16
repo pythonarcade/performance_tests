@@ -123,6 +123,7 @@ class MyGame(arcade.Window):
 
         # End the program run
         if self.performance_timing.end_run():
+            # Save screenshot
             image = arcade.get_image()
             image.save(RESULTS_IMAGE, 'PNG')
             self.close()

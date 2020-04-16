@@ -188,7 +188,9 @@ def main():
         window.on_draw()
         clock.tick(60)
 
-    pygame.image.save(window, RESULTS_IMAGE)
+    # Save screenshot
+    pygame.image.save(window.screen, RESULTS_IMAGE)
+
     pygame.quit()
 
 

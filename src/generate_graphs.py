@@ -62,6 +62,32 @@ def chart_stress_test_draw_moving():
     plt.savefig("../result_charts/draw_moving_sprites/pygame.svg")
     plt.clf()
 
+    # Time to move comparison
+    plt.title("Time to Move Sprites Comparison")
+    plt.plot(sprite_count_pygame, processing_time_pygame, label="Pygame")
+    plt.plot(sprite_count_arcade, processing_time_arcade, label="Arcade")
+
+    plt.legend(loc='upper left', shadow=True, fontsize='x-large')
+
+    plt.ylabel('Time')
+    plt.xlabel('Sprite Count')
+
+    plt.savefig("../result_charts/draw_moving_sprites/time_to_move_comparison.svg")
+    plt.clf()
+
+    # Time to move comparison
+    plt.title("Time to Draw Sprites Comparison")
+    plt.plot(sprite_count_pygame, drawing_time_pygame, label="Pygame")
+    plt.plot(sprite_count_arcade, drawing_time_arcade, label="Arcade")
+
+    plt.legend(loc='upper left', shadow=True, fontsize='x-large')
+
+    plt.ylabel('Time')
+    plt.xlabel('Sprite Count')
+
+    plt.savefig("../result_charts/draw_moving_sprites/time_to_draw_comparison.svg")
+    plt.clf()
+
     # FPS comparison
     plt.title("FPS Comparison")
     plt.plot(sprite_count_arcade[2:], fps_arcade[2:], label="Arcade")
