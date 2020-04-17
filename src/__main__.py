@@ -6,23 +6,32 @@ import pygame_1_9_tests.draw_moving_sprites
 import arcade_tests.collision
 import pygame_1_9_tests.collision
 
+import arcade_tests.draw_shapes
+import pygame_1_9_tests.draw_shapes
+
 import generate_graphs
 
 
-# Draw Moving Sprites Tests
-print("--- Draw Moving Arcade")
-arcade_tests.draw_moving_sprites.main()
-
+# # Draw Moving Sprites Tests
+# print("--- Draw Moving Arcade")
+# arcade_tests.draw_moving_sprites.main()
+#
 # print("--- Draw Moving Pygame")
-pygame_1_9_tests.draw_moving_sprites.main()
+# pygame_1_9_tests.draw_moving_sprites.main()
+#
+# # Collision tests
+# print("--- Collision Arcade")
+# arcade_tests.collision.main()
+# print("--- Collision Pygame")
+# pygame_1_9_tests.collision.main()
 
-# Collision tests
-print("--- Collision Arcade")
-arcade_tests.collision.main()
-print("--- Collision Pygame")
-pygame_1_9_tests.collision.main()
+# Shape tests
+arcade_tests.draw_shapes.main(True)
+arcade_tests.draw_shapes.main(False)
+pygame_1_9_tests.draw_shapes.main()
 
 # Generate the graphs
+print("--- Generating Graphs")
 generate_graphs.main()
 
 file_path = os.path.dirname(os.path.abspath(__file__))

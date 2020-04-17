@@ -130,9 +130,6 @@ class MyGame(arcade.Window):
             image = arcade.get_image()
             image.save(RESULTS_IMAGE, 'PNG')
             self.close()
-            import pyglet
-            pyglet.app.exit()
-            print("AAAAAA")
 
 
 def main():

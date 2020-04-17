@@ -144,6 +144,41 @@ def chart_collision():
     plt.savefig("../result_charts/collision/fps_comparison.svg")
     plt.clf()
 
+def chart_shapes():
+    results_arcade_buffered = read_results("../result_data/arcade/moving_shapes_buffered.csv")
+    results_arcade_unbuffered = read_results("../result_data/arcade/moving_shapes_unbuffered.csv")
+    results_pygame = read_results("../result_data/pygame/moving_shapes.csv")
+
+    shape_count_arcade_buffered = [row[SPRITE_COUNT] for row in results_arcade_buffered]
+    processing_time_arcade_buffered = [row[PROCESSING_TIME] for row in results_arcade_buffered]
+    drawing_time_arcade_buffered = [row[DRAWING_TIME] for row in results_arcade_buffered]
+    fps_arcade_buffered = [row[FPS] for row in results_arcade_buffered]
+
+    shape_count_arcade_unbuffered = [row[SPRITE_COUNT] for row in results_arcade_unbuffered]
+    processing_time_arcade_unbuffered = [row[PROCESSING_TIME] for row in results_arcade_unbuffered]
+    drawing_time_arcade_unbuffered = [row[DRAWING_TIME] for row in results_arcade_unbuffered]
+    fps_arcade_unbuffered = [row[FPS] for row in results_arcade_unbuffered]
+
+    shape_count_pygame = [row[SPRITE_COUNT] for row in results_pygame]
+    processing_time_pygame = [row[PROCESSING_TIME] for row in results_pygame]
+    drawing_time_pygame = [row[DRAWING_TIME] for row in results_pygame]
+    fps_pygame = [row[FPS] for row in results_pygame]
+
+    # FPS comparison
+    # Some of the initial values are often wonky, so skip those
+    plt.title("FPS Comparison")
+    plt.plot(shape_count_arcade_buffered[4:], fps_arcade_buffered[4:], label="Arcade Buffered")
+    plt.plot(shape_count_arcade_unbuffered[4:], fps_arcade_unbuffered[4:], label="Arcade Unbuffered")
+    plt.plot(shape_count_pygame[4:], fps_pygame[4:], label="Pygame")
+
+    plt.legend(loc='upper right', shadow=True, fontsize='x-large')
+
+    plt.ylabel('FPS')
+    plt.xlabel('Sprite Count')
+
+    plt.savefig("../result_charts/shapes/fps_comparison.svg")
+    plt.clf()
+
 
 def main():
     file_path = os.path.dirname(os.path.abspath(__file__))
@@ -151,6 +186,7 @@ def main():
 
     chart_stress_test_draw_moving()
     chart_collision()
+    chart_shapes()
 
 
 if __name__ == "__main__":
