@@ -26,8 +26,8 @@ SCREEN_WIDTH = 1800
 SCREEN_HEIGHT = 1000
 SCREEN_TITLE = "Pygame - Moving Sprite Stress Test"
 
-RESULTS_FILE = "../../result_data/pygame/collision.csv"
-RESULTS_IMAGE = "../../result_data/pygame/collision.png"
+RESULTS_FILE = "../../result_data/pygame20/collision.csv"
+RESULTS_IMAGE = "../../result_data/pygame20/collision.png"
 
 
 class Coin(pygame.sprite.Sprite):

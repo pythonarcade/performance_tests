@@ -22,8 +22,8 @@ SPRITE_SCALING_COIN = 0.25
 SPRITE_NATIVE_SIZE = 128
 SPRITE_SIZE = int(SPRITE_NATIVE_SIZE * SPRITE_SCALING_COIN)
 
-RESULTS_FILE = "../../result_data/pygame/moving_shapes.csv"
-RESULTS_IMAGE = "../../result_data/pygame/moving_shapes.png"
+RESULTS_FILE = "../../result_data/pygame20/moving_shapes.csv"
+RESULTS_IMAGE = "../../result_data/pygame20/moving_shapes.png"
 SCREEN_WIDTH = 1800
 SCREEN_HEIGHT = 1000
 SCREEN_TITLE = "Pygame - Moving Shapes Stress Test"

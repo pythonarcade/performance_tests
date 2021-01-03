@@ -9,17 +9,18 @@ touching another sprite.
 
     Screenshot from Arcade collision test
 
-.. figure:: ../../../result_data/pygame/collision.png
+.. figure:: ../../../result_data/pygame20/collision.png
     :width: 25%
 
     Screenshot from Pygame collision test
 
-Important notes:
+Important Notes:
+----------------
 
 * Pygame detects collisions based on an unrotated rect that encompasses the entire
   sprite, including transparent pixels.
 * Pygame does support creating `masks <https://www.pygame.org/docs/ref/mask.html>`_
-  for pixel-perfect collision detection. This benchmoark code uses just the faster rect
+  for pixel-perfect collision detection. This benchmark code uses just the faster rect
   detection.
 * Arcade will auto-trim the hit-box sides and corners based on transparent pixels.
   Arcade also supports rotating the hit box with the sprite.

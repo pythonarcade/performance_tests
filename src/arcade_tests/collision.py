@@ -24,8 +24,12 @@ SCREEN_WIDTH = 1800
 SCREEN_HEIGHT = 1000
 SCREEN_TITLE = "Moving Sprite Stress Test - Arcade"
 
-USE_SPATIAL_HASHING = True
-RESULTS_FILE = "../../result_data/arcade/collision.csv"
+USE_SPATIAL_HASHING = False
+
+if USE_SPATIAL_HASHING:
+    RESULTS_FILE = "../../result_data/arcade/collision-hash.csv"
+else:
+    RESULTS_FILE = "../../result_data/arcade/collision-no-hash.csv"
 RESULTS_IMAGE = "../../result_data/arcade/collision.png"
 
 

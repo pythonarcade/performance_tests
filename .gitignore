@@ -32,3 +32,4 @@ arcade/examples/test.png
 /doc/resources.rst
 .mypy_cache/
 /result_data/*/*.png
+/venv39/

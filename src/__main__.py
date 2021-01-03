@@ -11,7 +11,7 @@ import pygame_1_9_tests.draw_shapes
 
 import generate_graphs
 
-
+#
 # # Draw Moving Sprites Tests
 # print("--- Draw Moving Arcade")
 # arcade_tests.draw_moving_sprites.main()
@@ -26,8 +26,11 @@ import generate_graphs
 # pygame_1_9_tests.collision.main()
 
 # Shape tests
-arcade_tests.draw_shapes.main(True)
-arcade_tests.draw_shapes.main(False)
+print("--- Shape test Arcade Buffered")
+arcade_tests.draw_shapes.main(buffered=True)
+print("--- Shape test Arcade UnBuffered")
+arcade_tests.draw_shapes.main(buffered=False)
+print("--- Shape test Pygame")
 pygame_1_9_tests.draw_shapes.main()
 
 # Generate the graphs
