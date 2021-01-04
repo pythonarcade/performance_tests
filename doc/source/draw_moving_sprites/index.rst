@@ -37,24 +37,31 @@ drop-off number.
 
 The results, of course, will vary depending on the computer that you run it on.
 You can run the benchmarks yourself to see how they perform on your computer.
+See :ref:`how-to-recreate`.
 
 .. figure:: ../../../result_charts/draw_moving_sprites/fps_comparison.svg
 
     Frames-Per-Second vs. number of moving sprites
 
-How does this break down? Sprites in Pygame are drawn by the CPU. As the number
+Where is the time being spent? Sprites in Pygame are drawn by the CPU. As the number
 of sprites goes up, so does the time to draw. In Arcade, sprites are drawn by the
 GPU. With the sprites already on the graphics card, and the graphics card having
-many parallel processors, this is where Arcade gets its time advantage:
+many parallel processors, this is where Arcade gets its time advantage as we can
+see from this graph:
 
 .. image:: ../../../result_charts/draw_moving_sprites/time_to_draw_comparison.svg
 
-It does take longer for Arcade to move sprites than Pygame. In addition to
+The drawback is that it does take longer for Arcade to move sprites than Pygame.
+In addition to
 changing the position of the sprite in local computer memory, the new position
 of the sprite must be changed on the GPU. If the sprites don't move at all, Arcade
 can draw hundreds of thousands of sprites and still keep 60 FPS.
 
 .. image:: ../../../result_charts/draw_moving_sprites/time_to_move_comparison.svg
+
+Overall, the speed increase from using the GPU to draw sprites far outweighs
+the speed penalty in moving the sprites. If the sprites don't move at all,
+Arcade's speed advantage is massive.
 
 .. toctree::
    :maxdepth: 1

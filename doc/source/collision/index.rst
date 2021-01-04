@@ -18,20 +18,36 @@ Important Notes:
 ----------------
 
 * Pygame detects collisions based on an unrotated rect that encompasses the entire
-  sprite, including transparent pixels.
+  sprite, including transparent pixels. Arcade will trim off the transparent
+  pixels automatically, supports rotated sprites, and the "hit box" can be a polygon
+  rather than a rectangle.
 * Pygame does support creating `masks <https://www.pygame.org/docs/ref/mask.html>`_
   for pixel-perfect collision detection. This benchmark code uses just the faster rect
   detection.
-* Arcade will auto-trim the hit-box sides and corners based on transparent pixels.
-  Arcade also supports rotating the hit box with the sprite.
-* Pygame uses fast collision detection using C. While still O(N), it can detect
-  collisions very quickly using native code.
-* Arcade can use Spatial hashing. If the target list has sprites that don't move
+* Arcade can use *spatial hashing*. If the target list has sprites that don't move
   or change often, collision detection can come close to O(1). Spatial hashing slows
-  sprite movement, so there is a trade-off. Without spatial hashing, collision
-  detection is much slower because Arcade uses pure Python.
-* Pygame's drop-off in FPS comes from the time it takes to draw the sprites,
-  not from the time it takes to resolve collisions.
+  sprite movement, so there is a trade-off.
+
+Results
+-------
+
+When looking at the graph below, it is important to note that Pygame's drop-off
+in FPS comes from the time it takes to draw the sprites, not from the time it
+takes to resolve collisions.
+
+
+.. image:: ../../../result_charts/collision/fps_comparison.svg
+
+By looking at the time measurements, we can see that with spatial hashing turned
+on, collision detection takes about the same in Pygame and Arcade. With spatial
+hashing turned off, Arcade takes longer.
+
+(With spatial hashing turned on, it takes
+longer to move a sprite, so spatial hashing should only be used with stationary
+sprites. In most cases, walls in a game stay still, so this isn't normally an
+issue.)
+
+.. image:: ../../../result_charts/collision/time_to_move.svg
 
 .. toctree::
    :maxdepth: 2
@@ -40,6 +56,3 @@ Important Notes:
    pygame_source
    arcade_source
 
-.. image:: ../../../result_charts/collision/fps_comparison.svg
-
-.. image:: ../../../result_charts/collision/time_to_move.svg
