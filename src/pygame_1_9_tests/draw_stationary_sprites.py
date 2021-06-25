@@ -1,8 +1,9 @@
 """
-Sample Python/Pygame Programs
-Simpson College Computer Science
-http://programarcadegames.com/
-http://simpson.edu/computer-science/
+Moving Sprite Stress Test
+
+Simple program to test how fast we can draw sprites that are moving
+
+Artwork from http://kenney.nl
 """
 
 # noinspection PyPackageRequirements
@@ -17,17 +18,15 @@ WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 
 # --- Constants ---
-SPRITE_SCALING_COIN = 0.09
-SPRITE_SCALING_PLAYER = 0.5
+SPRITE_SCALING_COIN = 0.25
 SPRITE_NATIVE_SIZE = 128
 SPRITE_SIZE = int(SPRITE_NATIVE_SIZE * SPRITE_SCALING_COIN)
 
+RESULTS_FILE = "../../result_data/pygame20/draw_stationary_sprites.csv"
+RESULTS_IMAGE = "../../result_data/pygame20/draw_stationary_sprites.png"
 SCREEN_WIDTH = 1800
 SCREEN_HEIGHT = 1000
 SCREEN_TITLE = "Pygame - Moving Sprite Stress Test"
-
-RESULTS_FILE = "../../result_data/pygame20/collision.csv"
-RESULTS_IMAGE = "../../result_data/pygame20/collision.png"
 
 
 class Coin(pygame.sprite.Sprite):
@@ -35,6 +34,7 @@ class Coin(pygame.sprite.Sprite):
     This class represents the ball
     It derives from the "Sprite" class in Pygame
     """
+
     # Static coin image
     coin_image = None
 
@@ -66,41 +66,9 @@ class Coin(pygame.sprite.Sprite):
         # of rect.x and rect.y
         self.rect = self.image.get_rect()
 
-
-class Player(pygame.sprite.Sprite):
-    """
-    This class represents the ball
-    It derives from the "Sprite" class in Pygame
-    """
-
-    def __init__(self):
-        """ Constructor. Pass in the color of the block,
-        and its x and y position. """
-        # Call the parent class (Sprite) constructor
-        super().__init__()
-
-        # Create an image of the block, and fill it with a color.
-        # This could also be an image loaded from the disk.
-        image = pygame.image.load("../resources/femalePerson_idle.png")
-        rect = image.get_rect()
-        image = pygame.transform.scale(image, (
-            int(rect.width * SPRITE_SCALING_PLAYER), int(rect.height * SPRITE_SCALING_PLAYER)))
-        self.image = image.convert()
-        self.image.set_colorkey(BLACK)
-
-        # Fetch the rectangle object that has the dimensions of the image
-        # image.
-        # Update the position of this object by setting the values
-        # of rect.x and rect.y
-        self.rect = self.image.get_rect()
-
+        # Instance variables for our current speed and direction
         self.change_x = 0
         self.change_y = 0
-
-    def update(self):
-        """ Called each frame. """
-        self.rect.x += self.change_x
-        self.rect.y += self.change_y
 
 
 class MyGame:
@@ -124,33 +92,22 @@ class MyGame:
                                                     increment_n=1000,
                                                     end_time=60)
 
-
         # Initialize Pygame
         pygame.init()
+        pygame.display.set_caption(SCREEN_TITLE)
 
         # Set the height and width of the screen
         self.screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
 
         # This is a list of every sprite. All blocks and the player block as well.
         self.coin_list = pygame.sprite.Group()
-        self.player_list = pygame.sprite.Group()
-
-        # Create the player instance
-        self.player = Player()
-
-        self.player.rect.x = random.randrange(SPRITE_SIZE, SCREEN_WIDTH - SPRITE_SIZE)
-        self.player.rect.y = random.randrange(SPRITE_SIZE, SCREEN_HEIGHT - SPRITE_SIZE)
-        self.player.change_x = 3
-        self.player.change_y = 5
-
-        self.player_list.add(self.player)
 
         self.font = pygame.font.SysFont('Calibri', 25, True, False)
 
-    def add_coins(self, amount):
+    def add_coins(self, coin_amount):
 
         # Create the coins
-        for i in range(amount):
+        for i in range(coin_amount):
             # Create the coin instance
             # Coin image from kenney.nl
             coin = Coin()
@@ -173,7 +130,6 @@ class MyGame:
 
         # Draw all the spites
         self.coin_list.draw(self.screen)
-        self.player_list.draw(self.screen)
 
         pygame.display.flip()
 
@@ -183,24 +139,6 @@ class MyGame:
     def update(self, _delta_time):
         # Start update timer
         self.performance_timing.start_timer('update')
-
-        # Start update timer
-        self.player_list.update()
-
-        if self.player.rect.x < 0 and self.player.change_x < 0:
-            self.player.change_x *= -1
-        if self.player.rect.y < 0 and self.player.change_y < 0:
-            self.player.change_y *= -1
-
-        if self.player.rect.x > SCREEN_WIDTH and self.player.change_x > 0:
-            self.player.change_x *= -1
-        if self.player.rect.y > SCREEN_HEIGHT and self.player.change_y > 0:
-            self.player.change_y *= -1
-
-        coin_hit_list = pygame.sprite.spritecollide(self.player, self.coin_list, False)
-        for coin in coin_hit_list:
-            coin.rect.x = random.randrange(SCREEN_WIDTH)
-            coin.rect.y = random.randrange(SCREEN_HEIGHT)
 
         # Stop timing the update
         self.performance_timing.stop_timer('update')
