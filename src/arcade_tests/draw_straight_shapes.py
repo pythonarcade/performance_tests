@@ -173,7 +173,7 @@ class MyGame(arcade.Window):
 
         self.performance_timing = PerformanceTiming(results_file=self.results_file,
                                                     start_n=0,
-                                                    increment_n=20,
+                                                    increment_n=100,
                                                     end_time=60)
 
     def setup(self):
@@ -189,16 +189,18 @@ class MyGame(arcade.Window):
             # angle = random.randrange(0, 360)
             angle = 0
 
-            d_x = random.randrange(-3, 4)
-            d_y = random.randrange(-3, 4)
+            # d_x = random.randrange(-3, 4)
+            # d_y = random.randrange(-3, 4)
+            d_x = 0
+            d_y = 0
             # d_angle = random.randrange(-3, 4)
             d_angle = 0
 
             red = random.randrange(256)
             green = random.randrange(256)
             blue = random.randrange(256)
-            alpha = random.randrange(256)
-
+            # alpha = random.randrange(256)
+            alpha = 255
             shape_type = random.randrange(1)
             # shape_type = 1
 
@@ -208,20 +210,20 @@ class MyGame(arcade.Window):
                                       d_angle, (red, green, blue, alpha))
                 elif shape_type == 1:
                     shape = Ellipse(x, y, width, height, angle, d_x, d_y,
-                                d_angle, (red, green, blue, alpha))
+                                    d_angle, (red, green, blue, alpha))
                 elif shape_type == 2:
                     shape = Line(x, y, width, height, angle, d_x, d_y,
                                  d_angle, (red, green, blue, alpha))
             else:
                 if shape_type == 0:
                     shape = RectangleBuffered(x, y, width, height, angle, d_x, d_y,
-                                      d_angle, (red, green, blue, alpha))
+                                              d_angle, (red, green, blue, alpha))
                 elif shape_type == 1:
                     shape = EllipseBuffered(x, y, width, height, angle, d_x, d_y,
-                                d_angle, (red, green, blue, alpha))
+                                            d_angle, (red, green, blue, alpha))
                 elif shape_type == 2:
                     shape = LineBuffered(x, y, width, height, angle, d_x, d_y,
-                                 d_angle, (red, green, blue, alpha))
+                                         d_angle, (red, green, blue, alpha))
 
             self.shape_list.append(shape)
 
