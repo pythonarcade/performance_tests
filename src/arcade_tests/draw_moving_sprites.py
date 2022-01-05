@@ -3,7 +3,7 @@ Moving Sprite Stress Test
 
 Simple program to test how fast we can draw sprites that are moving
 
-Artwork from http://kenney.nl
+Artwork from https://kenney.nl
 """
 
 import random
@@ -55,7 +55,7 @@ class MyGame(arcade.Window):
 
         self.performance_timing = PerformanceTiming(results_file=RESULTS_FILE,
                                                     start_n=0,
-                                                    increment_n=100,
+                                                    increment_n=250,
                                                     end_time=60)
 
         arcade.set_background_color(arcade.color.AMAZON)
@@ -137,7 +137,7 @@ def main():
     window = MyGame()
     window.setup()
     arcade.run()
-    arcade.set_window(None)
+    # arcade.set_window(None)
 
 
 if __name__ == "__main__":

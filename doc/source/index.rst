@@ -15,7 +15,7 @@ Python Graphics Library Benchmarks
    :target: shapes/index.html
 
 This is a project to benchmark and compare different Python 2D graphics libraries.
-Currently it compares Arcade 2.5.2, Pygame 2.0.1, also some Pygame 1.9.2.
+Currently it compares Arcade 2.6.9 and Pygame 2.1.2.
 
 Suggestions for improving these tests are welcome. See :ref:`how-to-recreate`
 and submit a PR or `issue <https://github.com/pythonarcade/performance_tests/issues>`_.
@@ -24,6 +24,7 @@ and submit a PR or `issue <https://github.com/pythonarcade/performance_tests/iss
    :maxdepth: 1
    :caption: Tests:
 
+   draw_stationary_sprites/index
    draw_moving_sprites/index
    collision/index
    shapes/index

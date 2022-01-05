@@ -134,7 +134,7 @@ class MyGame:
                                   d_angle, (red, green, blue, alpha))
             elif shape_type == 1:
                 shape = Ellipse(x, y, width, height, angle, d_x, d_y,
-                            d_angle, (red, green, blue, alpha))
+                                d_angle, (red, green, blue, alpha))
             # elif shape_type == 2:
             #     shape = Line(x, y, width, height, angle, d_x, d_y,
             #                  d_angle, (red, green, blue, alpha))

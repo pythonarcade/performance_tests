@@ -22,8 +22,8 @@ SPRITE_SCALING_COIN = 0.25
 SPRITE_NATIVE_SIZE = 128
 SPRITE_SIZE = int(SPRITE_NATIVE_SIZE * SPRITE_SCALING_COIN)
 
-RESULTS_FILE = "../../result_data/pygame20/draw_stationary_sprites.csv"
-RESULTS_IMAGE = "../../result_data/pygame20/draw_stationary_sprites.png"
+RESULTS_FILE = "../../result_data/pygame/draw_stationary_sprites.csv"
+RESULTS_IMAGE = "../../result_data/pygame/draw_stationary_sprites.png"
 SCREEN_WIDTH = 1800
 SCREEN_HEIGHT = 1000
 SCREEN_TITLE = "Pygame - Moving Sprite Stress Test"
@@ -70,6 +70,11 @@ class Coin(pygame.sprite.Sprite):
         self.change_x = 0
         self.change_y = 0
 
+    def update(self):
+        """ Called each frame. """
+        self.rect.x += self.change_x
+        self.rect.y += self.change_y
+
 
 class MyGame:
     """ Our custom Window Class"""
@@ -89,7 +94,7 @@ class MyGame:
 
         self.performance_timing = PerformanceTiming(results_file=RESULTS_FILE,
                                                     start_n=0,
-                                                    increment_n=1000,
+                                                    increment_n=250,
                                                     end_time=60)
 
         # Initialize Pygame
@@ -116,6 +121,9 @@ class MyGame:
             coin.rect.x = random.randrange(SPRITE_SIZE, SCREEN_WIDTH - SPRITE_SIZE)
             coin.rect.y = random.randrange(SPRITE_SIZE, SCREEN_HEIGHT - SPRITE_SIZE)
 
+            coin.change_x = random.randrange(-3, 4)
+            coin.change_y = random.randrange(-3, 4)
+
             # Add the coin to the lists
             self.coin_list.add(coin)
 
@@ -137,7 +145,6 @@ class MyGame:
         self.performance_timing.stop_timer('draw')
 
     def update(self, _delta_time):
-        # Start update timer
         self.performance_timing.start_timer('update')
 
         # Stop timing the update

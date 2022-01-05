@@ -1,5 +1,5 @@
-Collision Tests
-===============
+Time to find colliding sprites
+==============================
 
 The collision test checks how fast the library can determine if a sprite is
 touching another sprite.
@@ -9,7 +9,7 @@ touching another sprite.
 
     Screenshot from Arcade collision test
 
-.. figure:: ../../../result_data/pygame20/collision.png
+.. figure:: ../../../result_data/pygame/collision.png
     :width: 25%
 
     Screenshot from Pygame collision test

@@ -9,6 +9,7 @@ DRAWING_TIME = 3
 PROCESSING_TIME = 4
 PYGAME_VERSION = 20
 
+
 def read_results(filename):
     results = []
     with open(filename) as csv_file:
@@ -23,26 +24,59 @@ def read_results(filename):
         return results
 
 
+def chart_stress_test_draw_stationary():
+    results_arcade = read_results("../result_data/arcade/draw_stationary_sprites.csv")
+    results_pygame20 = read_results(f"../result_data/pygame/draw_stationary_sprites.csv")
+
+    sprite_count_arcade = [row[SPRITE_COUNT] for row in results_arcade]
+    drawing_time_arcade = [row[DRAWING_TIME] for row in results_arcade]
+    fps_arcade = [row[FPS] for row in results_arcade]
+
+    sprite_count_pygame20 = [row[SPRITE_COUNT] for row in results_pygame20]
+    drawing_time_pygame20 = [row[DRAWING_TIME] for row in results_pygame20]
+    fps_pygame20 = [row[FPS] for row in results_pygame20]
+
+    # Time to draw comparison
+    plt.title("Time to Draw Sprites Comparison")
+    plt.plot(sprite_count_pygame20, drawing_time_pygame20, label="Pygame")
+    plt.plot(sprite_count_arcade, drawing_time_arcade, label="Arcade")
+
+    plt.legend(loc='upper left', shadow=True, fontsize='large')
+
+    plt.ylabel('Time')
+    plt.xlabel('Sprite Count')
+
+    plt.savefig("../result_charts/draw_stationary_sprites/time_to_draw_comparison.svg")
+    plt.clf()
+
+    # FPS comparison
+    # Some of the initial values are often wonky, so skip those
+    plt.title("FPS Comparison")
+    plt.plot(sprite_count_arcade[4:], fps_arcade[4:], label="Arcade")
+    plt.plot(sprite_count_pygame20[4:], fps_pygame20[4:], label="Pygame")
+
+    plt.legend(loc='lower left', shadow=True, fontsize='large')
+
+    plt.ylabel('FPS')
+    plt.xlabel('Sprite Count')
+
+    plt.savefig("../result_charts/draw_stationary_sprites/fps_comparison.svg")
+    plt.clf()
+
+
 def chart_stress_test_draw_moving():
     results_arcade = read_results("../result_data/arcade/draw_moving_sprites.csv")
-    results_pygame19 = read_results(f"../result_data/pygame19/draw_moving_sprites.csv")
-    results_pygame20 = read_results(f"../result_data/pygame20/draw_moving_sprites.csv")
+    results_pygame20 = read_results(f"../result_data/pygame/draw_moving_sprites.csv")
 
     sprite_count_arcade = [row[SPRITE_COUNT] for row in results_arcade]
     processing_time_arcade = [row[PROCESSING_TIME] for row in results_arcade]
     drawing_time_arcade = [row[DRAWING_TIME] for row in results_arcade]
     fps_arcade = [row[FPS] for row in results_arcade]
 
-    sprite_count_pygame19 = [row[SPRITE_COUNT] for row in results_pygame19]
-    processing_time_pygame19 = [row[PROCESSING_TIME] for row in results_pygame19]
-    drawing_time_pygame19 = [row[DRAWING_TIME] for row in results_pygame19]
-    fps_pygame19 = [row[FPS] for row in results_pygame19]
-
     sprite_count_pygame20 = [row[SPRITE_COUNT] for row in results_pygame20]
     processing_time_pygame20 = [row[PROCESSING_TIME] for row in results_pygame20]
     drawing_time_pygame20 = [row[DRAWING_TIME] for row in results_pygame20]
     fps_pygame20 = [row[FPS] for row in results_pygame20]
-
 
     # Arcade timings
     plt.title("Moving and Drawing Sprites In Arcade")
@@ -100,8 +134,7 @@ def chart_stress_test_draw_moving():
     # Some of the initial values are often wonky, so skip those
     plt.title("FPS Comparison")
     plt.plot(sprite_count_arcade[4:], fps_arcade[4:], label="Arcade")
-    plt.plot(sprite_count_pygame19[4:], fps_pygame19[4:], label="Pygame 1.9")
-    plt.plot(sprite_count_pygame20[4:], fps_pygame20[4:], label="Pygame 2.0")
+    plt.plot(sprite_count_pygame20[4:], fps_pygame20[4:], label="Pygame")
 
     plt.legend(loc='lower left', shadow=True, fontsize='large')
 
@@ -115,8 +148,7 @@ def chart_stress_test_draw_moving():
 def chart_collision():
     results_arcade_hash = read_results("../result_data/arcade/collision-hash.csv")
     results_arcade_no_hash = read_results("../result_data/arcade/collision-no-hash.csv")
-    results_pygame19 = read_results(f"../result_data/pygame19/collision.csv")
-    results_pygame20 = read_results(f"../result_data/pygame20/collision.csv")
+    results_pygame20 = read_results(f"../result_data/pygame/collision.csv")
 
     sprite_count_arcade_hash = [row[SPRITE_COUNT] for row in results_arcade_hash]
     processing_time_arcade_hash = [row[PROCESSING_TIME] for row in results_arcade_hash]
@@ -128,11 +160,6 @@ def chart_collision():
     drawing_time_arcade_no_hash = [row[DRAWING_TIME] for row in results_arcade_no_hash]
     fps_arcade_no_hash = [row[FPS] for row in results_arcade_no_hash]
 
-    sprite_count_pygame19 = [row[SPRITE_COUNT] for row in results_pygame19]
-    processing_time_pygame19 = [row[PROCESSING_TIME] for row in results_pygame19]
-    drawing_time_pygame19 = [row[DRAWING_TIME] for row in results_pygame19]
-    fps_pygame19 = [row[FPS] for row in results_pygame19]
-
     sprite_count_pygame20 = [row[SPRITE_COUNT] for row in results_pygame20]
     processing_time_pygame20 = [row[PROCESSING_TIME] for row in results_pygame20]
     drawing_time_pygame20 = [row[DRAWING_TIME] for row in results_pygame20]
@@ -140,10 +167,9 @@ def chart_collision():
 
     # Time to move comparison
     plt.title("Time To Move And Detect Collisions")
-    plt.plot(sprite_count_pygame20, processing_time_pygame20, label="Pygame 2.0")
-    plt.plot(sprite_count_pygame19, processing_time_pygame19, label="Pygame 1.9")
-    plt.plot(sprite_count_arcade_hash, processing_time_arcade_hash, label="Arcade Hash")
-    plt.plot(sprite_count_arcade_no_hash, processing_time_arcade_no_hash, label="Arcade No Hash")
+    plt.plot(sprite_count_pygame20, processing_time_pygame20, label="Pygame")
+    plt.plot(sprite_count_arcade_hash, processing_time_arcade_hash, label="Arcade with spatial hashing")
+    plt.plot(sprite_count_arcade_no_hash, processing_time_arcade_no_hash, label="Arcade")
 
     plt.legend(loc='upper left', shadow=True, fontsize='large')
 
@@ -156,10 +182,9 @@ def chart_collision():
     # FPS comparison
     # Some of the initial values are often wonky, so skip those
     plt.title("FPS Comparison")
-    plt.plot(sprite_count_arcade_hash[4:], fps_arcade_hash[4:], label="Arcade Hash")
-    plt.plot(sprite_count_arcade_no_hash[4:], fps_arcade_no_hash[4:], label="Arcade No Hash")
-    plt.plot(sprite_count_pygame19[4:], fps_pygame19[4:], label="Pygame 1.9")
-    plt.plot(sprite_count_pygame20[4:], fps_pygame20[4:], label="Pygame 2.0")
+    plt.plot(sprite_count_arcade_no_hash[4:], fps_arcade_no_hash[4:], label="Arcade")
+    plt.plot(sprite_count_arcade_hash[4:], fps_arcade_hash[4:], label="Arcade with spatial hashing")
+    plt.plot(sprite_count_pygame20[4:], fps_pygame20[4:], label="Pygame")
 
     plt.legend(loc='lower left', shadow=True, fontsize='large')
 
@@ -169,11 +194,11 @@ def chart_collision():
     plt.savefig("../result_charts/collision/fps_comparison.svg")
     plt.clf()
 
+
 def chart_shapes():
     results_arcade_buffered = read_results("../result_data/arcade/moving_shapes_buffered.csv")
     results_arcade_unbuffered = read_results("../result_data/arcade/moving_shapes_unbuffered.csv")
-    results_pygame20 = read_results(f"../result_data/pygame20/moving_shapes.csv")
-    results_pygame19 = read_results(f"../result_data/pygame19/moving_shapes.csv")
+    results_pygame20 = read_results(f"../result_data/pygame/moving_shapes.csv")
 
     shape_count_arcade_buffered = [row[SPRITE_COUNT] for row in results_arcade_buffered]
     processing_time_arcade_buffered = [row[PROCESSING_TIME] for row in results_arcade_buffered]
@@ -185,11 +210,6 @@ def chart_shapes():
     drawing_time_arcade_unbuffered = [row[DRAWING_TIME] for row in results_arcade_unbuffered]
     fps_arcade_unbuffered = [row[FPS] for row in results_arcade_unbuffered]
 
-    shape_count_pygame19 = [row[SPRITE_COUNT] for row in results_pygame19]
-    processing_time_pygame19 = [row[PROCESSING_TIME] for row in results_pygame19]
-    drawing_time_pygame19 = [row[DRAWING_TIME] for row in results_pygame19]
-    fps_pygame19 = [row[FPS] for row in results_pygame19]
-
     shape_count_pygame20 = [row[SPRITE_COUNT] for row in results_pygame20]
     processing_time_pygame20 = [row[PROCESSING_TIME] for row in results_pygame20]
     drawing_time_pygame20 = [row[DRAWING_TIME] for row in results_pygame20]
@@ -200,8 +220,7 @@ def chart_shapes():
     plt.title("FPS Comparison")
     plt.plot(shape_count_arcade_buffered[4:], fps_arcade_buffered[4:], label="Arcade Buffered")
     plt.plot(shape_count_arcade_unbuffered[4:], fps_arcade_unbuffered[4:], label="Arcade Unbuffered")
-    plt.plot(shape_count_pygame20[4:], fps_pygame20[4:], label="Pygame 2.0")
-    plt.plot(shape_count_pygame19[4:], fps_pygame19[4:], label="Pygame 1.9")
+    plt.plot(shape_count_pygame20[4:], fps_pygame20[4:], label="Pygame")
 
     plt.legend(loc='upper right', shadow=True, fontsize='large')
 
@@ -218,6 +237,7 @@ def main():
 
     sns.set_style("whitegrid")
 
+    chart_stress_test_draw_stationary()
     chart_stress_test_draw_moving()
     chart_collision()
     chart_shapes()

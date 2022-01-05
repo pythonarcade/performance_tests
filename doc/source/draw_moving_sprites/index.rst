@@ -1,5 +1,5 @@
-Moving Sprites Speed Comparison
-===============================
+Time to move and draw sprites
+=============================
 
 This is a benchmark for testing how fast moving sprites can be drawn to the
 screen using both the Arcade library and PyGame.
@@ -11,7 +11,7 @@ Here are screenshots from both the libraries:
 
     Screenshot from Arcade moving sprites
 
-.. figure:: ../../../result_data/pygame20/draw_moving_sprites.png
+.. figure:: ../../../result_data/pygame/draw_moving_sprites.png
     :width: 25%
 
     Screenshot from Pygame moving sprites

@@ -8,7 +8,7 @@ This is a benchmark for testing how fast moving shapes can be drawn to the scree
 
     Screenshot from Arcade moving shapes
 
-.. figure:: ../../../result_data/pygame20/moving_shapes.png
+.. figure:: ../../../result_data/pygame/moving_shapes.png
     :width: 25%
 
     Screenshot from Pygame moving shapes

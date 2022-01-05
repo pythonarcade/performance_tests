@@ -3,7 +3,7 @@ Moving Sprite Stress Test
 
 Simple program to test how fast we can draw sprites that are moving
 
-Artwork from http://kenney.nl
+Artwork from https://kenney.nl
 """
 
 import random
@@ -20,7 +20,7 @@ RESULTS_FILE = "../../result_data/arcade/draw_stationary_sprites.csv"
 RESULTS_IMAGE = "../../result_data/arcade/draw_stationary_sprites.png"
 SCREEN_WIDTH = 1800
 SCREEN_HEIGHT = 1000
-SCREEN_TITLE = "Arcade - Moving Sprite Stress Test"
+SCREEN_TITLE = "Arcade - Stationary Sprite Stress Test"
 
 
 class Coin(arcade.Sprite):
@@ -55,7 +55,7 @@ class MyGame(arcade.Window):
 
         self.performance_timing = PerformanceTiming(results_file=RESULTS_FILE,
                                                     start_n=0,
-                                                    increment_n=1000,
+                                                    increment_n=250,
                                                     end_time=60)
 
         arcade.set_background_color(arcade.color.AMAZON)
@@ -72,9 +72,6 @@ class MyGame(arcade.Window):
             coin.center_x = random.randrange(SPRITE_SIZE, SCREEN_WIDTH - SPRITE_SIZE)
             coin.center_y = random.randrange(SPRITE_SIZE, SCREEN_HEIGHT - SPRITE_SIZE)
 
-            coin.change_x = random.randrange(-3, 4)
-            coin.change_y = random.randrange(-3, 4)
-
             # Add the coin to the lists
             self.coin_list.append(coin)
 
@@ -82,7 +79,7 @@ class MyGame(arcade.Window):
         """ Set up the game and initialize the variables. """
 
         # Sprite lists
-        self.coin_list = arcade.SpriteList(use_spatial_hash=False, is_static=True)
+        self.coin_list = arcade.SpriteList()
 
     def on_draw(self):
         """ Draw everything """
@@ -100,6 +97,7 @@ class MyGame(arcade.Window):
         self.performance_timing.stop_timer('draw')
 
     def update(self, delta_time):
+
         # Start update timer
         self.performance_timing.start_timer('update')
 
@@ -124,7 +122,7 @@ def main():
     window = MyGame()
     window.setup()
     arcade.run()
-    arcade.set_window(None)
+    # arcade.set_window(None)
 
 
 if __name__ == "__main__":
