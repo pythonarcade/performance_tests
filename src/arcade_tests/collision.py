@@ -25,11 +25,13 @@ SCREEN_HEIGHT = 1000
 SCREEN_TITLE = "Moving Sprite Stress Test - Arcade"
 
 USE_SPATIAL_HASHING = True
+METHOD = 3
+RESULTS_FILE = f"../../result_data/arcade/collision-{METHOD}.csv"
 
-if USE_SPATIAL_HASHING:
-    RESULTS_FILE = "../../result_data/arcade/collision-hash.csv"
-else:
-    RESULTS_FILE = "../../result_data/arcade/collision-no-hash.csv"
+# if USE_SPATIAL_HASHING:
+#     RESULTS_FILE = "../../result_data/arcade/collision-hash.csv"
+# else:
+#     RESULTS_FILE = "../../result_data/arcade/collision-no-hash.csv"
 RESULTS_IMAGE = "../../result_data/arcade/collision.png"
 
 
@@ -123,7 +125,7 @@ class MyGameCollision(arcade.Window):
         if self.player.center_y > SCREEN_HEIGHT and self.player.change_y > 0:
             self.player.change_y *= -1
 
-        coin_hit_list = arcade.check_for_collision_with_list(self.player, self.coin_list)
+        coin_hit_list = arcade.check_for_collision_with_list(self.player, self.coin_list, method=METHOD)
         for coin in coin_hit_list:
             coin.center_x = random.randrange(SCREEN_WIDTH)
             coin.center_y = random.randrange(SCREEN_HEIGHT)

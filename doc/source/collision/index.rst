@@ -47,7 +47,7 @@ longer to move a sprite, so spatial hashing should only be used with stationary
 sprites. In most cases, walls in a game stay still, so this isn't normally an
 issue.)
 
-.. image:: ../../../result_charts/collision/time_to_move.svg
+.. image:: ../../../result_charts/collision/collision.svg
 
 .. toctree::
    :maxdepth: 2
