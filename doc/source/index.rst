@@ -15,7 +15,11 @@ Python Graphics Library Benchmarks
    :target: shapes/index.html
 
 This is a project to benchmark and compare different Python 2D graphics libraries.
-Currently it compares Arcade 2.6.9 and Pygame 2.1.2.
+These docs were run with:
+
+* Pyglet |pyglet_version|
+* Arcade |arcade_version|
+* Pygame |pygame_version|.
 
 Suggestions for improving these tests are welcome. See :ref:`how-to-recreate`
 and submit a PR or `issue <https://github.com/pythonarcade/performance_tests/issues>`_.

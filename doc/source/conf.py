@@ -3,6 +3,9 @@
 # This file only contains a selection of the most common options. For a full
 # list see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
+import arcade
+import pygame.version
+import pyglet
 
 # -- Path setup --------------------------------------------------------------
 
@@ -21,6 +24,18 @@ project = 'Python Graphics Library Benchmarks'
 copyright = '2023, Arcade Academy'
 author = 'Arcade Academy'
 
+arcade_version = arcade.VERSION
+pygame_version = pygame.version.ver
+pyglet_version = pyglet.version
+
+variables_to_export = [
+    "pygame_version",
+    "arcade_version",
+    "pyglet_version",
+]
+frozen_locals = dict(locals())
+rst_epilog = '\n'.join(map(lambda x: f".. |{x}| replace:: {frozen_locals[x]}", variables_to_export))
+del frozen_locals
 
 # -- General configuration ---------------------------------------------------
 

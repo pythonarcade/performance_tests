@@ -55,8 +55,8 @@ class MyGameCollision(arcade.Window):
 
         self.performance_timing = PerformanceTiming(results_file=RESULTS_FILE,
                                                     start_n=0,
-                                                    increment_n=30,
-                                                    end_time=120)
+                                                    increment_n=1000,
+                                                    end_time=60)
 
         arcade.set_background_color(arcade.color.AMAZON)
 
