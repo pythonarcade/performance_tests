@@ -1,5 +1,5 @@
-pygame
-arcade
+pygame-ce
+arcade==3.0.0.dev18
 matplotlib
 pyglet
 sphinx

@@ -70,7 +70,7 @@ class Coin(pygame.sprite.Sprite):
         self.change_x = 0
         self.change_y = 0
 
-    def update(self):
+    def on_update(self, dt):
         """ Called each frame. """
         self.rect.x += self.change_x
         self.rect.y += self.change_y

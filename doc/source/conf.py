@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Python Graphics Library Benchmarks'
-copyright = '2021, Arcade Academy'
+copyright = '2023, Arcade Academy'
 author = 'Arcade Academy'
 
 

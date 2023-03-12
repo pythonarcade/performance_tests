@@ -28,10 +28,6 @@ USE_SPATIAL_HASHING = True
 METHOD = 3
 RESULTS_FILE = f"../../result_data/arcade/collision-{METHOD}.csv"
 
-# if USE_SPATIAL_HASHING:
-#     RESULTS_FILE = "../../result_data/arcade/collision-hash.csv"
-# else:
-#     RESULTS_FILE = "../../result_data/arcade/collision-no-hash.csv"
 RESULTS_IMAGE = "../../result_data/arcade/collision.png"
 
 
@@ -59,8 +55,8 @@ class MyGameCollision(arcade.Window):
 
         self.performance_timing = PerformanceTiming(results_file=RESULTS_FILE,
                                                     start_n=0,
-                                                    increment_n=1000,
-                                                    end_time=60)
+                                                    increment_n=30,
+                                                    end_time=120)
 
         arcade.set_background_color(arcade.color.AMAZON)
 
@@ -110,7 +106,7 @@ class MyGameCollision(arcade.Window):
         # Stop timing how long this takes
         self.performance_timing.stop_timer('draw')
 
-    def update(self, delta_time):
+    def on_update(self, delta_time):
         # Start update timer
         self.performance_timing.start_timer('update')
 

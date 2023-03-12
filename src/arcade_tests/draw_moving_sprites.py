@@ -25,7 +25,7 @@ SCREEN_TITLE = "Arcade - Moving Sprite Stress Test"
 
 class Coin(arcade.Sprite):
 
-    def update(self):
+    def on_update(self, dt):
         """
         Update the sprite.
         """
@@ -99,7 +99,7 @@ class MyGame(arcade.Window):
         # Stop timing how long this takes
         self.performance_timing.stop_timer('draw')
 
-    def update(self, delta_time):
+    def on_update(self, delta_time):
         # Start update timer
         self.performance_timing.start_timer('update')
 

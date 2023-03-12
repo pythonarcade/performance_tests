@@ -126,10 +126,10 @@ class RectangleBuffered(ShapeBuffered):
         super().__init__(x, y, width, height, angle, delta_x, delta_y,
                          delta_angle, color)
 
-        shape = arcade.create_rectangle_filled(0, 0,
+        shape = arcade.shape_list.create_rectangle_filled(0, 0,
                                                self.width, self.height,
                                                self.color, self.angle)
-        self.shape_list = arcade.ShapeElementList()
+        self.shape_list = arcade.shape_list.ShapeElementList()
         self.shape_list.append(shape)
 
 
@@ -141,10 +141,10 @@ class LineBuffered(ShapeBuffered):
         super().__init__(x, y, width, height, angle, delta_x, delta_y,
                          delta_angle, color)
 
-        shape = arcade.create_line(0, 0,
+        shape = arcade.shape_list.create_line(0, 0,
                                    self.width, self.height,
                                    self.color, 2)
-        self.shape_list = arcade.ShapeElementList()
+        self.shape_list = arcade.shape_list.ShapeElementList()
         self.shape_list.append(shape)
 
 

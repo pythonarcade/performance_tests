@@ -146,10 +146,16 @@ def chart_stress_test_draw_moving():
 
 
 def chart_collision():
+    results_arcade_0 = read_results("../result_data/arcade/collision-0.csv")
     results_arcade_1 = read_results("../result_data/arcade/collision-1.csv")
     results_arcade_2 = read_results("../result_data/arcade/collision-2.csv")
     results_arcade_3 = read_results("../result_data/arcade/collision-3.csv")
     results_pygame20 = read_results(f"../result_data/pygame/collision.csv")
+
+    sprite_count_arcade_0 = [row[SPRITE_COUNT] for row in results_arcade_0]
+    processing_time_arcade_0 = [row[PROCESSING_TIME] for row in results_arcade_0]
+    drawing_time_arcade_0 = [row[DRAWING_TIME] for row in results_arcade_0]
+    fps_arcade_0 = [row[FPS] for row in results_arcade_0]
 
     sprite_count_arcade_1 = [row[SPRITE_COUNT] for row in results_arcade_1]
     processing_time_arcade_1 = [row[PROCESSING_TIME] for row in results_arcade_1]
@@ -173,8 +179,9 @@ def chart_collision():
 
     # Time to move comparison
     plt.title("Time To Detect Collisions")
-    plt.plot(sprite_count_pygame20, processing_time_pygame20, label="Pygame")
-    plt.plot(sprite_count_arcade_1, processing_time_arcade_1, label="Arcade spatial hashing")
+    # plt.plot(sprite_count_pygame20, processing_time_pygame20, label="Pygame")
+    # plt.plot(sprite_count_arcade_2, processing_time_arcade_0, label="Arcade default")
+    # plt.plot(sprite_count_arcade_1, processing_time_arcade_1, label="Arcade spatial hashing")
     plt.plot(sprite_count_arcade_2, processing_time_arcade_2, label="Arcade GPU")
     plt.plot(sprite_count_arcade_3, processing_time_arcade_3, label="Arcade simple")
 

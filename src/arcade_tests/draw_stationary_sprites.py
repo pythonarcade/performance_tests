@@ -25,7 +25,7 @@ SCREEN_TITLE = "Arcade - Stationary Sprite Stress Test"
 
 class Coin(arcade.Sprite):
 
-    def update(self):
+    def on_update(self, delta_time):
         """
         Update the sprite.
         """
@@ -40,7 +40,7 @@ class MyGame(arcade.Window):
         # Call the parent class initializer
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
 
-        arcade.cleanup_texture_cache()
+        # arcade.cleanup_texture_cache()
 
         # Set the working directory (where we expect to find files) to the same
         # directory this .py file is in. You can leave this out of your own
@@ -88,7 +88,7 @@ class MyGame(arcade.Window):
         self.performance_timing.start_timer('draw')
 
         # Clear the screen
-        arcade.start_render()
+        self.clear()
 
         # Draw all the sprites
         self.coin_list.draw()
@@ -96,7 +96,7 @@ class MyGame(arcade.Window):
         # Stop timing how long this takes
         self.performance_timing.stop_timer('draw')
 
-    def update(self, delta_time):
+    def on_update(self, delta_time):
 
         # Start update timer
         self.performance_timing.start_timer('update')

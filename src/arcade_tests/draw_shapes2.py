@@ -5,6 +5,7 @@ Moving Sprites Stress Test
 import random
 import os
 import arcade
+import arcade.shape_list
 from performance_timing import PerformanceTiming
 
 # Set up the constants
@@ -47,7 +48,7 @@ class Shape:
 class Ellipse(Shape):
 
     def get_shape(self):
-        shape = arcade.create_ellipse_filled(self.x, self.y,
+        shape = arcade.shape_list.create_ellipse_filled(self.x, self.y,
                                              self.width, self.height,
                                              self.color, self.angle)
         return shape
@@ -56,7 +57,7 @@ class Ellipse(Shape):
 class Rectangle(Shape):
 
     def get_shape(self):
-        shape = arcade.create_rectangle_filled(self.x, self.y,
+        shape = arcade.shape_list.create_rectangle_filled(self.x, self.y,
                                                self.width, self.height,
                                                self.color, self.angle)
         return shape
@@ -158,7 +159,7 @@ class MyGame(arcade.Window):
 
         arcade.start_render()
 
-        shape_element_list = arcade.ShapeElementList()
+        shape_element_list = arcade.shape_list.ShapeElementList()
         for shape in self.shape_list:
             shape_element_list.append(shape.get_shape())
 
