@@ -66,12 +66,18 @@ def chart_stress_test_draw_stationary():
 
 def chart_stress_test_draw_moving():
     results_arcade = read_results("../result_data/arcade/draw_moving_sprites.csv")
+    results_arcade_basic = read_results("../result_data/arcade/draw_moving_sprites_basic.csv")
     results_pygame20 = read_results(f"../result_data/pygame/draw_moving_sprites.csv")
 
     sprite_count_arcade = [row[SPRITE_COUNT] for row in results_arcade]
     processing_time_arcade = [row[PROCESSING_TIME] for row in results_arcade]
     drawing_time_arcade = [row[DRAWING_TIME] for row in results_arcade]
     fps_arcade = [row[FPS] for row in results_arcade]
+
+    sprite_count_arcade_basic = [row[SPRITE_COUNT] for row in results_arcade_basic]
+    processing_time_arcade_basic = [row[PROCESSING_TIME] for row in results_arcade_basic]
+    drawing_time_arcade_basic = [row[DRAWING_TIME] for row in results_arcade_basic]
+    fps_arcade_basic = [row[FPS] for row in results_arcade_basic]
 
     sprite_count_pygame20 = [row[SPRITE_COUNT] for row in results_pygame20]
     processing_time_pygame20 = [row[PROCESSING_TIME] for row in results_pygame20]
@@ -132,9 +138,10 @@ def chart_stress_test_draw_moving():
 
     # FPS comparison
     # Some of the initial values are often wonky, so skip those
-    plt.title("FPS Comparison")
-    plt.plot(sprite_count_arcade[4:], fps_arcade[4:], label="Arcade")
-    plt.plot(sprite_count_pygame20[4:], fps_pygame20[4:], label="Pygame")
+    plt.title("Moving Sprites FPS Comparison")
+    plt.plot(sprite_count_arcade[4:], fps_arcade[4:], label="Arcade Sprite")
+    plt.plot(sprite_count_arcade_basic[4:], fps_arcade_basic[4:], label="Arcade BasicSprite")
+    plt.plot(sprite_count_pygame20[4:], fps_pygame20[4:], label="Pygame Sprite")
 
     plt.legend(loc='lower left', shadow=True, fontsize='large')
 
@@ -195,10 +202,11 @@ def chart_collision():
 
     # FPS comparison
     # Some of the initial values are often wonky, so skip those
-    plt.title("FPS Comparison")
-    plt.plot(sprite_count_arcade_1[4:], fps_arcade_1[4:], label="Arcade")
-    plt.plot(sprite_count_arcade_2[4:], fps_arcade_2[4:], label="Arcade")
-    plt.plot(sprite_count_arcade_3[4:], fps_arcade_3[4:], label="Arcade")
+    plt.title("Stationary Collision Check FPS Comparison")
+    plt.plot(sprite_count_arcade_0[4:], fps_arcade_1[4:], label="Arcade 0 - Autoselect")
+    plt.plot(sprite_count_arcade_1[4:], fps_arcade_1[4:], label="Arcade 1 - Spatial")
+    plt.plot(sprite_count_arcade_2[4:], fps_arcade_2[4:], label="Arcade 2 - GPU")
+    plt.plot(sprite_count_arcade_3[4:], fps_arcade_3[4:], label="Arcade 3 - Simple")
     plt.plot(sprite_count_pygame20[4:], fps_pygame20[4:], label="Pygame")
 
     plt.legend(loc='lower left', shadow=True, fontsize='large')

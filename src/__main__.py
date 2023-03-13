@@ -3,6 +3,7 @@ import os
 import arcade.key
 
 import arcade_tests.draw_moving_sprites
+import arcade_tests.draw_moving_sprites_basic
 import pygame_tests.draw_moving_sprites
 
 import arcade_tests.collision
@@ -27,12 +28,17 @@ pygame_tests.draw_stationary_sprites.main()
 print("--- Draw Moving Arcade")
 arcade_tests.draw_moving_sprites.main()
 
+# Draw Moving Sprites Tests
+print("--- Draw Moving Arcade Basic Sprites")
+arcade_tests.draw_moving_sprites_basic.main()
+
 print("--- Draw Moving Pygame")
 pygame_tests.draw_moving_sprites.main()
 
 # Collision tests
-print("--- Collision Arcade")
-arcade_tests.collision.main()
+for method in range(4):
+    print(f"--- Collision Arcade method {method}")
+    arcade_tests.collision.main(method)
 
 print("--- Collision Pygame")
 pygame_tests.collision.main()

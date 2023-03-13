@@ -3,40 +3,48 @@ Moving Sprite Stress Test
 
 Simple program to test how fast we can draw sprites that are moving
 
-Artwork from http://kenney.nl
-
-If Python and Arcade are installed, this example can be run from the command line with:
-python -m arcade.examples.stress_test_draw_moving
+Artwork from https://kenney.nl
 """
 
-import arcade
 import random
+import arcade
 import os
 from performance_timing import PerformanceTiming
 
 # --- Constants ---
-SPRITE_SCALING_COIN = 0.09
-SPRITE_SCALING_PLAYER = 0.5
+SPRITE_SCALING_COIN = 0.25
 SPRITE_NATIVE_SIZE = 128
 SPRITE_SIZE = int(SPRITE_NATIVE_SIZE * SPRITE_SCALING_COIN)
 
+RESULTS_FILE = "../../result_data/arcade/draw_moving_sprites_basic.csv"
+RESULTS_IMAGE = "../../result_data/arcade/draw_moving_sprites_basic.png"
 SCREEN_WIDTH = 1800
 SCREEN_HEIGHT = 1000
-SCREEN_TITLE = "Moving Sprite Stress Test - Arcade"
-
-USE_SPATIAL_HASHING = True
-
-RESULTS_IMAGE = "../../result_data/arcade/collision.png"
+SCREEN_TITLE = "Arcade - Moving Sprite Stress Test"
 
 
-class MyGameCollision(arcade.Window):
+class Coin(arcade.BasicSprite):
+
+    def __init__(self):
+        texture = arcade.load_texture("../resources/coinGold.png")
+        super().__init__(texture, scale=SPRITE_SCALING_COIN)
+        self.change_x = 0
+        self.change_y = 0
+
+    def on_update(self, dt):
+        """
+        Update the sprite.
+        """
+        self.position = (self.position[0] + self.change_x, self.position[1] + self.change_y)
+
+
+class MyGame(arcade.Window):
     """ Our custom Window Class"""
 
-    def __init__(self, method):
+    def __init__(self):
         """ Initializer """
         # Call the parent class initializer
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-        self.method = method
 
         arcade.cleanup_texture_cache()
 
@@ -49,21 +57,14 @@ class MyGameCollision(arcade.Window):
 
         # Variables that will hold sprite lists
         self.coin_list = None
-        self.player_list = None
-        self.player = None
+        self.sprite_count_list = []
 
-        results_file = f"../../result_data/arcade/collision-{self.method}.csv"
-        self.performance_timing = PerformanceTiming(results_file=results_file,
+        self.performance_timing = PerformanceTiming(results_file=RESULTS_FILE,
                                                     start_n=0,
-                                                    increment_n=1000,
+                                                    increment_n=250,
                                                     end_time=60)
 
         arcade.set_background_color(arcade.color.AMAZON)
-
-        # Open file to save timings
-        # self.results_file = open(results_file, "w")
-
-        self.frame = 0
 
     def add_coins(self, amount):
 
@@ -71,11 +72,14 @@ class MyGameCollision(arcade.Window):
         for i in range(amount):
             # Create the coin instance
             # Coin image from kenney.nl
-            coin = arcade.Sprite(":resources:images/items/coinGold.png", SPRITE_SCALING_COIN)
+            coin = Coin()
 
             # Position the coin
             coin.center_x = random.randrange(SPRITE_SIZE, SCREEN_WIDTH - SPRITE_SIZE)
             coin.center_y = random.randrange(SPRITE_SIZE, SCREEN_HEIGHT - SPRITE_SIZE)
+
+            coin.change_x = random.randrange(-3, 4)
+            coin.change_y = random.randrange(-3, 4)
 
             # Add the coin to the lists
             self.coin_list.append(coin)
@@ -84,14 +88,7 @@ class MyGameCollision(arcade.Window):
         """ Set up the game and initialize the variables. """
 
         # Sprite lists
-        self.coin_list = arcade.SpriteList(use_spatial_hash=USE_SPATIAL_HASHING)
-        self.player_list = arcade.SpriteList()
-        self.player = arcade.Sprite(":resources:images/animated_characters/female_person/femalePerson_idle.png", SPRITE_SCALING_PLAYER)
-        self.player.center_x = random.randrange(SCREEN_WIDTH)
-        self.player.center_y = random.randrange(SCREEN_HEIGHT)
-        self.player.change_x = 3
-        self.player.change_y = 5
-        self.player_list.append(self.player)
+        self.coin_list = arcade.SpriteList(use_spatial_hash=False)
 
     def on_draw(self):
         """ Draw everything """
@@ -99,9 +96,11 @@ class MyGameCollision(arcade.Window):
         # Start timing how long this takes
         self.performance_timing.start_timer('draw')
 
+        # Clear the screen
         arcade.start_render()
+
+        # Draw all the sprites
         self.coin_list.draw()
-        self.player_list.draw()
 
         # Stop timing how long this takes
         self.performance_timing.stop_timer('draw')
@@ -110,21 +109,16 @@ class MyGameCollision(arcade.Window):
         # Start update timer
         self.performance_timing.start_timer('update')
 
-        self.player_list.update()
-        if self.player.center_x < 0 and self.player.change_x < 0:
-            self.player.change_x *= -1
-        if self.player.center_y < 0 and self.player.change_y < 0:
-            self.player.change_y *= -1
-
-        if self.player.center_x > SCREEN_WIDTH and self.player.change_x > 0:
-            self.player.change_x *= -1
-        if self.player.center_y > SCREEN_HEIGHT and self.player.change_y > 0:
-            self.player.change_y *= -1
-
-        coin_hit_list = arcade.check_for_collision_with_list(self.player, self.coin_list, method=self.method)
-        for coin in coin_hit_list:
-            coin.center_x = random.randrange(SCREEN_WIDTH)
-            coin.center_y = random.randrange(SCREEN_HEIGHT)
+        for sprite in self.coin_list:
+            sprite.on_update(delta_time)
+            if sprite.position[0] < 0:
+                sprite.change_x *= -1
+            elif sprite.position[0] > SCREEN_WIDTH:
+                sprite.change_x *= -1
+            if sprite.position[1] < 0:
+                sprite.change_y *= -1
+            elif sprite.position[1] > SCREEN_HEIGHT:
+                sprite.change_y *= -1
 
         # Stop timing the update
         self.performance_timing.stop_timer('update')
@@ -140,16 +134,15 @@ class MyGameCollision(arcade.Window):
             image = arcade.get_image()
             image.save(RESULTS_IMAGE, 'PNG')
             self.close()
-            import pyglet
-            pyglet.app.exit()
 
 
-def main(method):
+def main():
     """ Main method """
-    window = MyGameCollision(method)
+    window = MyGame()
     window.setup()
     arcade.run()
+    # arcade.set_window(None)
 
 
 if __name__ == "__main__":
-    main(1)
+    main()

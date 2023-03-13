@@ -50,7 +50,7 @@ class PerformanceTiming:
             self.results_file.write(output)
             self.results_file.write("\n")
 
-        if int(current_time) > int(self.last_report):
+        if current_time >= self.last_report + 1.0:
             exact_time = current_time - self.last_report
             self.last_report = current_time
             if 'draw' not in self.timing_lists:

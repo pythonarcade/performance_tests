@@ -24,12 +24,11 @@ Run ``src/__main__.py`` which should:
 **Step 4:**
 Look at the resulting documents in ``doc/build``
 
-```
-cd performance_tests
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-cd src
-python __main__.py
+..  code-block::
 
-```
+    cd performance_tests
+    python -m venv venv
+    venv\Scripts\activate
+    pip install -r requirements.txt
+    cd src
+    python __main__.py
