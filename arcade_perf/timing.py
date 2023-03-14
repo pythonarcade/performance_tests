@@ -47,6 +47,7 @@ class PerformanceTiming:
             self.first_line = False
             output = f"Time, FPS, Sprite Count, Draw Time, Update Time"
             print(output)
+            print(self.results_file)
             self.results_file.write(output)
             self.results_file.write("\n")
 
