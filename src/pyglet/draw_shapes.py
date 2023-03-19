@@ -15,25 +15,42 @@ SCREEN_HEIGHT = 1000
 SCREEN_TITLE = "Pyglet Moving Shapes"
 
 
-class MovingEllipse(pyglet.shapes.Ellipse):
+class MovingEllipse(pyglet.shapes.Rectangle):
     """ Generic base shape class """
     def __init__(self, x, y, a, b, color=(255, 255, 255, 255), batch=None, group=None):
         super().__init__(x, y, a, b, color, batch, group)
         self.delta_x = 0
         self.delta_y = 0
         self.delta_angle = 0
+        # Anchor the rotation to the middle of the rectangle, instead of the corner.
+        self.anchor_x = a / 2
+        self.anchor_y = b / 2
 
     def move(self):
-        self.anchor_x += self.delta_x
-        self.anchor_y += self.delta_y
+        # self.x += self.delta_x
+        # self.y += self.delta_y
+        # self.rotation += self.delta_angle
+        # if self.x < 0 and self.delta_x < 0:
+        #     self.delta_x *= -1
+        # if self.y < 0 and self.delta_y < 0:
+        #     self.delta_y *= -1
+        # if self.x > SCREEN_WIDTH and self.delta_x > 0:
+        #     self.delta_x *= -1
+        # if self.y > SCREEN_HEIGHT and self.delta_y > 0:
+        #     self.delta_y *= -1
+
+        x, y = self.position
+        x += self.delta_x
+        y += self.delta_y
+        self.position = x, y
         self.rotation += self.delta_angle
-        if self.x < 0 and self.delta_x < 0:
+        if x < 0 and self.delta_x < 0:
             self.delta_x *= -1
-        if self.y < 0 and self.delta_y < 0:
+        if y < 0 and self.delta_y < 0:
             self.delta_y *= -1
-        if self.x > SCREEN_WIDTH and self.delta_x > 0:
+        if x > SCREEN_WIDTH and self.delta_x > 0:
             self.delta_x *= -1
-        if self.y > SCREEN_HEIGHT and self.delta_y > 0:
+        if y > SCREEN_HEIGHT and self.delta_y > 0:
             self.delta_y *= -1
 
 
@@ -58,7 +75,7 @@ class MyGame(arcade.Window):
 
         self.performance_timing = PerformanceTiming(results_file=self.results_file,
                                                     start_n=0,
-                                                    increment_n=20,
+                                                    increment_n=1,
                                                     end_time=60)
 
     def setup(self):
@@ -89,6 +106,7 @@ class MyGame(arcade.Window):
             shape.delta_x = d_x
             shape.delta_y = d_y
             shape.delta_angle = d_angle
+            self.shape_list.append(shape)
 
     def on_update(self, dt):
         """ Move everything """
@@ -126,8 +144,8 @@ class MyGame(arcade.Window):
         self.performance_timing.stop_timer('draw')
 
 
-def main(buffered):
-    window = MyGame(buffered)
+def main():
+    window = MyGame()
     window.setup()
     arcade.run()
 
