@@ -221,6 +221,7 @@ def chart_collision():
 def chart_shapes():
     results_arcade_buffered = read_results("../result_data/arcade/moving_shapes_buffered.csv")
     results_arcade_unbuffered = read_results("../result_data/arcade/moving_shapes_unbuffered.csv")
+    results_pyglet = read_results("../result_data/pyglet/moving_shape.csv")
     results_pygame20 = read_results(f"../result_data/pygame/moving_shapes.csv")
 
     shape_count_arcade_buffered = [row[SPRITE_COUNT] for row in results_arcade_buffered]
@@ -238,14 +239,20 @@ def chart_shapes():
     drawing_time_pygame20 = [row[DRAWING_TIME] for row in results_pygame20]
     fps_pygame20 = [row[FPS] for row in results_pygame20]
 
+    shape_count_pyglet = [row[SPRITE_COUNT] for row in results_pyglet]
+    processing_time_pyglet = [row[PROCESSING_TIME] for row in results_pyglet]
+    drawing_time_pyglet = [row[DRAWING_TIME] for row in results_pyglet]
+    fps_pyglet = [row[FPS] for row in results_pyglet]
+
     # FPS comparison
     # Some of the initial values are often wonky, so skip those
     plt.title("FPS Comparison")
     plt.plot(shape_count_arcade_buffered[4:], fps_arcade_buffered[4:], label="Arcade Buffered")
     plt.plot(shape_count_arcade_unbuffered[4:], fps_arcade_unbuffered[4:], label="Arcade Unbuffered")
+    plt.plot(shape_count_pyglet[4:], fps_pyglet[4:], label="Pyglet")
     plt.plot(shape_count_pygame20[4:], fps_pygame20[4:], label="Pygame")
 
-    plt.legend(loc='upper right', shadow=True, fontsize='large')
+    plt.legend(loc='lower right', shadow=True, fontsize='large')
 
     plt.ylabel('FPS')
     plt.xlabel('Shape Count')

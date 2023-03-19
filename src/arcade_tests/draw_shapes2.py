@@ -114,7 +114,7 @@ class MyGame(arcade.Window):
             alpha = random.randrange(256)
 
             shape_type = random.randrange(2)
-            # shape_type = 1
+            shape_type = 0
 
             if shape_type == 0:
                 shape = Rectangle(x, y, width, height, angle, d_x, d_y,

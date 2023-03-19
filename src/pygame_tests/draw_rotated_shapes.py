@@ -22,8 +22,8 @@ SPRITE_SCALING_COIN = 0.25
 SPRITE_NATIVE_SIZE = 128
 SPRITE_SIZE = int(SPRITE_NATIVE_SIZE * SPRITE_SCALING_COIN)
 
-RESULTS_FILE = "../../result_data/pygame20/moving_shapes.csv"
-RESULTS_IMAGE = "../../result_data/pygame20/moving_shapes.png"
+RESULTS_FILE = "../../result_data/pygame/moving_shapes.csv"
+RESULTS_IMAGE = "../../result_data/pygame/moving_shapes.png"
 SCREEN_WIDTH = 1800
 SCREEN_HEIGHT = 1000
 SCREEN_TITLE = "Pygame - Moving Shapes Stress Test"
@@ -116,13 +116,13 @@ class MyGame:
             height = random.randrange(10, 30)
             angle = random.randrange(0, 360)
 
-            # d_x = random.randrange(-3, 4)
-            # d_y = random.randrange(-3, 4)
-            # d_angle = random.randrange(-3, 4)
+            d_x = random.randrange(-3, 4)
+            d_y = random.randrange(-3, 4)
+            d_angle = random.randrange(-3, 4)
 
-            d_x = 0
-            d_y = 0
-            d_angle = 0
+            # d_x = 0
+            # d_y = 0
+            # d_angle = 0
 
             red = random.randrange(256)
             green = random.randrange(256)

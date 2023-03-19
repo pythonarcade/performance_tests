@@ -200,7 +200,7 @@ class MyGame(arcade.Window):
             alpha = random.randrange(256)
 
             shape_type = random.randrange(1)
-            # shape_type = 1
+            shape_type = 0
 
             if not self.buffered:
                 if shape_type == 0:
