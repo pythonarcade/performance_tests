@@ -1,4 +1,3 @@
-import time
 from pathlib import Path
 from typing import Tuple
 import pygame
@@ -41,6 +40,11 @@ class PerfTest:
         self.frame = 0
         self.timing = None
 
+    @property
+    def instance_name(self) -> str:
+        """Get the instance name"""
+        return f"{self.type}_{self.name}"
+
     def get_instance_name(self, **kwargs):
         """Get information from the instance values"""
         for k, v in self.instances:
@@ -60,9 +64,11 @@ class PerfTest:
 
     def run(self, session_dir: Path):
         self.frame = 0
-        session_dir.mkdir(parents=True, exist_ok=True)
+        out_path = session_dir / "data"
+        out_path.mkdir(parents=True, exist_ok=True)
+
         self.timing = PerformanceTiming(
-            session_dir / f"{self.type}_{self.name}.csv",
+            out_path / f"{self.instance_name}.csv",
             start_n=self.start_count,
             increment_n=self.increment_count,
             end_time=self.duration,
@@ -110,7 +116,7 @@ class ArcadePerfTest(PerfTest):
 
     def run(self, session_dir: Path, screenshot: bool = True):
         """Run the test collecting data."""
-        super().run(session_dir / "data")
+        super().run(session_dir)
         self.create_window()
         self.setup()
 
@@ -128,11 +134,14 @@ class ArcadePerfTest(PerfTest):
 
             self.timing.start_timer("draw")
             self.on_draw()
+            self.window.ctx.flush()  # Wait for draw to finish
             self.timing.stop_timer("draw")
 
             self.update_state()
 
             self.window.flip()
+
+        self.timing.write()
 
         # Save screenshot
         if screenshot:
@@ -178,7 +187,7 @@ class PygamePerfTest(PerfTest):
     def on_update(self, delta_time: float):
         return super().on_update(delta_time)
 
-    def run(self, session_dir: Path):
+    def run(self, session_dir: Path, screenshot: bool = True):
         """Run the test."""
         super().run(session_dir)
         self.window = None
@@ -206,3 +215,12 @@ class PygamePerfTest(PerfTest):
 
             self.update_state()
             pygame.display.flip()
+
+        self.timing.write()
+
+        if screenshot:
+            path = session_dir / "images"
+            path.mkdir(parents=True, exist_ok=True)
+            pygame.image.save(
+                self.window, path / f"{self.type}_{self.name}.png"
+            )

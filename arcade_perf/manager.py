@@ -38,6 +38,8 @@ class TestManager:
         self.session = session
         self.session_dir = OUT_DIR / session
         self.session_dir.mkdir(parents=True, exist_ok=True)
+        self.data_dir = self.session_dir / "data"
+
         self.test_classes: List[Type[PerfTest]] = []
         self.test_instances: List[PerfTest] =  []
 
@@ -105,33 +107,47 @@ class TestManager:
             ))
         self.test_instances.append(instance)
 
+    def get_test_instance(self, name: str) -> Optional[PerfTest]:
+        for instance in self.test_instances:
+            if instance.instance_name == name:
+                return instance
+
     def run(self):
         """Run all tests"""
-        # Run arcade tests first
         for instance in self.test_instances:
             instance.run(self.session_dir)
 
     def create_graph(
         self,
+        file_name: str,
         title: str,
         x_label: str,
         y_label: str,
         series_names = [],
     ):
         """Create a graph using matplotlib"""
+        print("Creating graph : {title}} [{x_label}, {y_label}]}]")
         series = []
+        skip = False
         for _series in series_names:
-            s = DataSeries()
-            series.append(s)
+            # Check if we have a test instance with this name
+            instance = self.get_test_instance(_series)
+            if instance is None:
+                print(f" -> No test instance found for series '{_series}'")
+                skip = True
 
-    def _filter_tests(self, test_classes, type, name):
-        """Filter test classes based on type and name"""
-        filtered = []
-        for test_cls in test_classes:
-            if type and test_cls.type != type:
-                continue
-            if name and test_cls.name != name:
-                continue
-            filtered.append(test_cls)
+            path = self.data_dir / f"{_series}.csv"
+            if not path.exists():
+                print(f"No data found for series '{_series}' in session '{self.session}'")
+                skip = True
 
-        return filtered
+            if skip:
+                continue
+        
+            series.append(DataSeries(instance.name, path))
+
+        out_path = self.session_dir / "graphs"
+        out_path.mkdir(parents=True, exist_ok=True)
+        out_path = out_path / f"{file_name}.png"
+        graph = PerfGraph(title, x_label, y_label, series)
+        graph.create(out_path)

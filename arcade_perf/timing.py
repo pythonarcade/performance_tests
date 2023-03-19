@@ -1,3 +1,4 @@
+from typing import List
 import timeit
 import statistics
 
@@ -5,7 +6,7 @@ import statistics
 class PerformanceTiming:
     def __init__(self, results_file, start_n, increment_n, end_time):
         self.program_start_time = timeit.default_timer()
-        self.results_file = open(results_file, "w")
+        self.result_path = results_file
         self.last_report = 0
         self.start_timers = {}
         self.timing_lists = {}
@@ -14,6 +15,7 @@ class PerformanceTiming:
         self.start_n = start_n
         self.increment_n = increment_n
         self.end_time = end_time
+        self.output: List[str] = []
 
     @property
     def total_program_time(self):
@@ -26,7 +28,6 @@ class PerformanceTiming:
 
     def end_run(self):
         if self.total_program_time > self.end_time:
-            self.results_file.close()
             return True
         else:
             return False
@@ -45,11 +46,9 @@ class PerformanceTiming:
         current_time = self.total_program_time
         if self.first_line:
             self.first_line = False
-            output = f"Time, FPS, Sprite Count, Draw Time, Update Time"
+            output = "Time, FPS, Sprite Count, Draw Time, Update Time"
+            self.output.append(output)
             print(output)
-            print(self.results_file)
-            self.results_file.write(output)
-            self.results_file.write("\n")
 
         if int(current_time) > int(self.last_report):
             exact_time = current_time - self.last_report
@@ -69,8 +68,11 @@ class PerformanceTiming:
             fps = update_count / exact_time
             output = f"{int(current_time)}, {fps:.1f}, {self.target_n}, {draw_time:.6f}, {update_time:.6f}"
             print(output)
-            self.results_file.write(output)
-            self.results_file.write("\n")
+            self.output.append(output)
 
             # Reset timers
             self.timing_lists = {}
+
+    def write(self):
+        with open(self.result_path, 'w') as fd:
+            fd.write("\n".join(self.output))

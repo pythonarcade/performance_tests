@@ -1,7 +1,6 @@
 import sys
 import argparse
 from datetime import datetime
-from . import OUT_DIR
 from arcade_perf.manager import TestManager
 
 
