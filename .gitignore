@@ -6,8 +6,8 @@
 *.csv
 *.svg
 /.vscode/
-arcade.egg-info/
-arcade/__pycache__/
+*egg-info*
+__pycache__
 dist/
 build/
 .coverage
