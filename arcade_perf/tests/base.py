@@ -88,7 +88,13 @@ class ArcadePerfTest(PerfTest):
         **kwargs
     ):
         super().__init__(
-            size, title, start_count, increment_count, duration, **kwargs
+            size=size,
+            title=title,
+            start_count=start_count,
+            increment_count=increment_count,
+            # duration=duration,
+            duration=10,
+            **kwargs
         )
         self.window = None
 
@@ -196,7 +202,8 @@ class PygamePerfTest(PerfTest):
             self.window = pygame.display.set_mode(self.size)
         except pygame.error:
             self.window = pygame.display.set_mode(self.size)
-            pygame.display.set_caption(self.title)
+
+        pygame.display.set_caption(self.title)
 
         self.setup()
 
@@ -224,3 +231,4 @@ class PygamePerfTest(PerfTest):
             pygame.image.save(
                 self.window, path / f"{self.type}_{self.name}.png"
             )
+    

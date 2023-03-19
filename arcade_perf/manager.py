@@ -65,6 +65,7 @@ class TestManager:
         """
         all_classes = find_test_classes("arcade")
         all_classes += find_test_classes("pygame")
+        all_classes += find_test_classes("pyglet")
 
         for cls in all_classes:
             if type is not None and cls.type != type:
