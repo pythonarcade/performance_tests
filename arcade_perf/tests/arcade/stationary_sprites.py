@@ -15,12 +15,12 @@ SPRITE_NATIVE_SIZE = 128
 SPRITE_SIZE = int(SPRITE_NATIVE_SIZE * SPRITE_SCALING_COIN)
 SCREEN_WIDTH = 1800
 SCREEN_HEIGHT = 1000
-SCREEN_TITLE = "Arcade - Moving Sprite Stress Test"
+SCREEN_TITLE = "Arcade - Stationary Sprite Stress Test"
 
 
 class Coin(arcade.Sprite):
 
-    def update(self):
+    def on_update(self, delta_time):
         """
         Update the sprite.
         """
@@ -31,50 +31,39 @@ class Coin(arcade.Sprite):
 
 
 class Test(ArcadePerfTest):
-    name = "moving-sprites"
-    coin_cls = Coin
+    name = "stationary-sprites"
 
     def __init__(self):
-        """ Initializer """
         super().__init__(
             size=(SCREEN_WIDTH, SCREEN_HEIGHT),
             title=SCREEN_TITLE,
+            start_count=0,
+            increment_count=250,
+            duration=60,
         )
+        self.coin_list = None
+
+    def setup(self):
+        """Set up the game and initialize the variables"""
+        self.coin_list = arcade.SpriteList()
+        self.coin_texture = arcade.load_texture(":textures:coinGold.png")
 
     def add_coins(self, amount):
-        """Add mount coins to the spritelist"""
+        """add mount coins to the spritelist"""
         for _ in range(amount):
-            coin = self.coin_cls(
+            coin = Coin(
                 self.coin_texture,
                 center_x=random.randrange(SPRITE_SIZE, SCREEN_WIDTH - SPRITE_SIZE),
                 center_y=random.randrange(SPRITE_SIZE, SCREEN_HEIGHT - SPRITE_SIZE),
-                scale=SPRITE_SCALING_COIN
+                scale=SPRITE_SCALING_COIN,
             )
-            coin.change_x = random.randrange(-3, 4)
-            coin.change_y = random.randrange(-3, 4)
             self.coin_list.append(coin)
-
-    def setup(self):
-        """ Set up the game and initialize the variables. """
-        self.coin_texture = arcade.load_texture(":textures:coinGold.png")
-        self.window.background_color = arcade.color.AMAZON
-        self.coin_list = arcade.SpriteList(use_spatial_hash=False)
 
     def on_draw(self):
         self.coin_list.draw()
 
     def on_update(self, delta_time):
-        self.coin_list.update()
-
-        for sprite in self.coin_list:
-            if sprite.position[0] < 0:
-                sprite.change_x *= -1
-            elif sprite.position[0] > SCREEN_WIDTH:
-                sprite.change_x *= -1
-            if sprite.position[1] < 0:
-                sprite.change_y *= -1
-            elif sprite.position[1] > SCREEN_HEIGHT:
-                sprite.change_y *= -1
+        pass
 
     def update_state(self):
         # Figure out if we need more coins

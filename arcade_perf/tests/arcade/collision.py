@@ -30,7 +30,6 @@ class Test(ArcadePerfTest):
             increment_count=1000,
             duration=60.0,
         )
-        # Collision method
         self.method = method
         self.name = f"collision-{self.method}"
         self.series_name = self.get_instance_name(method=self.method)
