@@ -4,12 +4,12 @@ Simpson College Computer Science
 http://programarcadegames.com/
 http://simpson.edu/computer-science/
 """
-
-# noinspection PyPackageRequirements
+import arcade
 import pygame
 import random
-import os
-from performance_timing import PerformanceTiming
+from arcade_perf.tests.base import PygamePerfTest
+
+pygame.init()
 
 # Define some colors
 BLACK = (0, 0, 0)
@@ -46,11 +46,12 @@ class Coin(pygame.sprite.Sprite):
 
         # In Pygame, if we load and scale a coin image every time we create a sprite,
         # this will result in a noticeable performance hit. Therefore we do it once,
-        # and re-use that image over-and-over.
+        # and re-use that image over-and-over. 
+        image_path = arcade.resources.resolve_resource_path(":textures:coinGold.png")
         if Coin.coin_image is None:
             # Create an image of the block, and fill it with a color.
             # This could also be an image loaded from the disk.
-            Coin.coin_image = pygame.image.load("../resources/coinGold.png")
+            Coin.coin_image = pygame.image.load(image_path)
             rect = Coin.coin_image.get_rect()
             Coin.coin_image = pygame.transform.scale(
                 Coin.coin_image,
@@ -81,7 +82,8 @@ class Player(pygame.sprite.Sprite):
 
         # Create an image of the block, and fill it with a color.
         # This could also be an image loaded from the disk.
-        image = pygame.image.load("../resources/femalePerson_idle.png")
+        image_path = arcade.resources.resolve_resource_path(":textures:femalePerson_idle.png")
+        image = pygame.image.load(image_path)
         rect = image.get_rect()
         image = pygame.transform.scale(image, (
             int(rect.width * SPRITE_SCALING_PLAYER), int(rect.height * SPRITE_SCALING_PLAYER)))
@@ -103,33 +105,17 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.change_y
 
 
-class MyGame:
-    """ Our custom Window Class"""
+class Test(PygamePerfTest):
+    name = "collision"
 
     def __init__(self):
         """ Initializer """
+        super().__init__(
+            size=(SCREEN_WIDTH, SCREEN_HEIGHT),
+            title=SCREEN_TITLE,
+        )
 
-        # Set the working directory (where we expect to find files) to the same
-        # directory this .py file is in. You can leave this out of your own
-        # code, but it is needed to easily run the examples using "python -m"
-        # as mentioned at the top of this program.
-        file_path = os.path.dirname(os.path.abspath(__file__))
-        os.chdir(file_path)
-
-        # Variables that will hold sprite lists
-        self.coin_list = None
-
-        self.performance_timing = PerformanceTiming(results_file=RESULTS_FILE,
-                                                    start_n=0,
-                                                    increment_n=1000,
-                                                    end_time=60)
-
-        # Initialize Pygame
-        pygame.init()
-
-        # Set the height and width of the screen
-        self.screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
-
+    def setup(self):
         # This is a list of every sprite. All blocks and the player block as well.
         self.coin_list = pygame.sprite.Group()
         self.player_list = pygame.sprite.Group()
@@ -163,26 +149,10 @@ class MyGame:
 
     def on_draw(self):
         """ Draw everything """
+        self.coin_list.draw(self.window)
+        self.player_list.draw(self.window)
 
-        # Start timing how long this takes
-        self.performance_timing.start_timer('draw')
-
-        # Clear the screen
-        self.screen.fill((59, 122, 87))
-
-        # Draw all the spites
-        self.coin_list.draw(self.screen)
-        self.player_list.draw(self.screen)
-
-        pygame.display.flip()
-
-        # Stop timing how long this takes
-        self.performance_timing.stop_timer('draw')
-
-    def update(self, _delta_time):
-        # Start update timer
-        self.performance_timing.start_timer('update')
-
+    def on_update(self, delta_time):
         # Start update timer
         self.player_list.update()
 
@@ -201,39 +171,8 @@ class MyGame:
             coin.rect.x = random.randrange(SCREEN_WIDTH)
             coin.rect.y = random.randrange(SCREEN_HEIGHT)
 
-        # Stop timing the update
-        self.performance_timing.stop_timer('update')
-
+    def update_state(self):
         # Figure out if we need more coins
-        if self.performance_timing.target_n > len(self.coin_list):
-            new_coin_amount = self.performance_timing.target_n - len(self.coin_list)
+        if self.timing.target_n > len(self.coin_list):
+            new_coin_amount = self.timing.target_n - len(self.coin_list)
             self.add_coins(new_coin_amount)
-
-
-def main():
-    """ Main method """
-    window = MyGame()
-
-    # Loop until the user clicks the close button.
-    done = False
-
-    # Used to manage how fast the screen updates
-    clock = pygame.time.Clock()
-
-    # -------- Main Program Loop -----------
-    while not window.performance_timing.end_run() and not done:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                done = True
-        window.update(0)
-        window.on_draw()
-        clock.tick(60)
-
-    # Save screenshot
-    pygame.image.save(window.screen, RESULTS_IMAGE)
-
-    pygame.quit()
-
-
-if __name__ == "__main__":
-    main()

@@ -11,29 +11,29 @@ SCREEN_HEIGHT = 1000
 SCREEN_TITLE = "Moving Sprite Stress Test - Arcade"
 USE_SPATIAL_HASHING = True
 DEFAULT_METHOD = 3
-NAMES = {
-    0: "Arcade Auto",
-    1: "Arcade Spatial",
-    2: "Arcade GPU",
-    3: "Arcade Simple (No Spatial Hashing, No Sprite Lists)",
-}
 
 
 class Test(ArcadePerfTest):
     name = "collision"
-    
+    instances = (
+        ({"method": 0}, "Arcade Auto"),
+        ({"method": 1}, "Arcade Spatial"),
+        ({"method": 2}, "Arcade GPU"),
+        ({"method": 3}, "Arcade Simple"),
+    )
+
     def __init__(self, method: int = DEFAULT_METHOD):
         super().__init__(
             size=(SCREEN_WIDTH, SCREEN_HEIGHT),
             title=SCREEN_TITLE,
             start_count=0,
-            increment_count=100,
+            increment_count=1000,
             duration=60.0,
         )
         # Collision method
         self.method = method
         self.name = f"collision-{self.method}"
-        self.series_name = NAMES[self.method]
+        self.series_name = self.get_instance_name(method=self.method)
 
         # Variables that will hold sprite lists
         self.coin_list = None

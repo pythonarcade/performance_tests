@@ -2,26 +2,16 @@ import sys
 import argparse
 from datetime import datetime
 from . import OUT_DIR
-from arcade_perf.tests.arcade import collision
-from arcade_perf import manager
-
-# Create test instances
-collision_0 = collision.Test(method=0)
-collision_1 = collision.Test(method=1)
-collision_2 = collision.Test(method=2)
-collision_3 = collision.Test(method=3)
+from arcade_perf.manager import TestManager
 
 
 def main():
-    session_name = "test"
-    session_dir = OUT_DIR / session_name
-    session_dir.mkdir(parents=True, exist_ok=True)
-
-    # Run tests
-    # collision_0.run(session_dir)
-    # collision_1.run(session_dir)
-    # collision_2.run(session_dir)
-    # collision_3.run(session_dir)
+    args = parse_args(sys.argv[1:])
+    print(f"Session name: '{args.session}'")
+    manager = TestManager(args.session, debug=True)
+    manager.find_test_classes(args.type, args.name)
+    manager.create_test_instances()
+    manager.run()
 
     # -- Graphs  --
     # draw_stationary_sprites [pygame, arcade]
@@ -34,7 +24,6 @@ def main():
     # - arcade.collision-3 Arcade Simple
 
     # shapes
-
 
 
 # run -s test -t arcade, -n collision
@@ -53,4 +42,4 @@ def parse_args(args):
 
 
 if __name__ == "__main__":
-    args = parse_args(sys.argv[1:])
+    main()

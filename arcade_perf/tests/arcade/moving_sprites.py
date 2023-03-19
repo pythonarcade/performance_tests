@@ -5,9 +5,7 @@ Simple program to test how fast we can draw sprites that are moving
 
 Artwork from https://kenney.nl
 """
-import os
 import random
-
 import arcade
 from arcade_perf.tests.base import ArcadePerfTest
 
@@ -33,10 +31,15 @@ class Coin(arcade.Sprite):
 
 
 class Test(ArcadePerfTest):
+    name = "moving-sprites"
 
     def __init__(self):
         """ Initializer """
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+        super().__init__(
+            size=(SCREEN_WIDTH, SCREEN_HEIGHT),
+            title=SCREEN_TITLE,
+        )
+
         self.coin_list = None
         self.sprite_count_list = []
 
@@ -46,7 +49,7 @@ class Test(ArcadePerfTest):
         for i in range(amount):
             # Create the coin instance
             # Coin image from kenney.nl
-            coin = Coin("../resources/coinGold.png", SPRITE_SCALING_COIN)
+            coin = Coin(":textures:coinGold.png", SPRITE_SCALING_COIN)
 
             # Position the coin
             coin.center_x = random.randrange(SPRITE_SIZE, SCREEN_WIDTH - SPRITE_SIZE)
@@ -64,6 +67,7 @@ class Test(ArcadePerfTest):
         self.coin_list = arcade.SpriteList(use_spatial_hash=False)
 
     def on_draw(self):
+        super().on_draw()
         """ Draw everything """
         self.coin_list.draw()
 
@@ -81,7 +85,8 @@ class Test(ArcadePerfTest):
             elif sprite.position[1] > SCREEN_HEIGHT:
                 sprite.change_y *= -1
 
+    def update_state(self):
         # Figure out if we need more coins
-        if self.performance_timing.target_n > len(self.coin_list):
-            new_coin_amount = self.performance_timing.target_n - len(self.coin_list)
+        if self.timing.target_n > len(self.coin_list):
+            new_coin_amount = self.timing.target_n - len(self.coin_list)
             self.add_coins(new_coin_amount)
