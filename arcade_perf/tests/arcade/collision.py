@@ -42,6 +42,7 @@ class Test(ArcadePerfTest):
 
     def setup(self):
         self.window.background_color = arcade.color.AMAZON
+        self.coin_texture = arcade.load_texture(":resources:images/items/coinGold.png")
         # Sprite lists
         self.coin_list = arcade.SpriteList(use_spatial_hash=USE_SPATIAL_HASHING)
         self.player_list = arcade.SpriteList()
@@ -58,10 +59,11 @@ class Test(ArcadePerfTest):
     def add_coins(self, amount):
         """Add a new set of coins"""
         for i in range(amount):
-            coin = arcade.Sprite(":resources:images/items/coinGold.png", SPRITE_SCALING_COIN)
-            coin.position = (
-                random.randrange(SPRITE_SIZE, SCREEN_WIDTH - SPRITE_SIZE),
-                random.randrange(SPRITE_SIZE, SCREEN_HEIGHT - SPRITE_SIZE),
+            coin = arcade.Sprite(
+                self.coin_texture,
+                center_x=random.randrange(SPRITE_SIZE, SCREEN_WIDTH - SPRITE_SIZE),
+                center_y=random.randrange(SPRITE_SIZE, SCREEN_HEIGHT - SPRITE_SIZE),
+                scale=SPRITE_SCALING_COIN,
             )
             self.coin_list.append(coin)
 
