@@ -221,7 +221,7 @@ def chart_collision():
 def chart_shapes():
     results_arcade_buffered = read_results("../result_data/arcade/moving_shapes_buffered.csv")
     results_arcade_unbuffered = read_results("../result_data/arcade/moving_shapes_unbuffered.csv")
-    results_pyglet = read_results("../result_data/pyglet/moving_shape.csv")
+    results_pyglet = read_results("../result_data/pyglet/moving_shapes.csv")
     results_pygame20 = read_results(f"../result_data/pygame/moving_shapes.csv")
 
     shape_count_arcade_buffered = [row[SPRITE_COUNT] for row in results_arcade_buffered]
@@ -246,7 +246,7 @@ def chart_shapes():
 
     # FPS comparison
     # Some of the initial values are often wonky, so skip those
-    plt.title("FPS Comparison")
+    plt.title("Unrotated Rectangles FPS Comparison")
     plt.plot(shape_count_arcade_buffered[4:], fps_arcade_buffered[4:], label="Arcade Buffered")
     plt.plot(shape_count_arcade_unbuffered[4:], fps_arcade_unbuffered[4:], label="Arcade Unbuffered")
     plt.plot(shape_count_pyglet[4:], fps_pyglet[4:], label="Pyglet")
@@ -261,6 +261,48 @@ def chart_shapes():
     plt.clf()
 
 
+def chart_rotated_shapes():
+    results_arcade_buffered = read_results("../result_data/arcade/moving_shapes_buffered.csv")
+    results_arcade_unbuffered = read_results("../result_data/arcade/moving_shapes_unbuffered.csv")
+    results_pyglet = read_results("../result_data/pyglet/moving_rotating_shapes.csv")
+    results_pygame20 = read_results(f"../result_data/pygame/moving_rotating_shapes.csv")
+
+    shape_count_arcade_buffered = [row[SPRITE_COUNT] for row in results_arcade_buffered]
+    processing_time_arcade_buffered = [row[PROCESSING_TIME] for row in results_arcade_buffered]
+    drawing_time_arcade_buffered = [row[DRAWING_TIME] for row in results_arcade_buffered]
+    fps_arcade_buffered = [row[FPS] for row in results_arcade_buffered]
+
+    shape_count_arcade_unbuffered = [row[SPRITE_COUNT] for row in results_arcade_unbuffered]
+    processing_time_arcade_unbuffered = [row[PROCESSING_TIME] for row in results_arcade_unbuffered]
+    drawing_time_arcade_unbuffered = [row[DRAWING_TIME] for row in results_arcade_unbuffered]
+    fps_arcade_unbuffered = [row[FPS] for row in results_arcade_unbuffered]
+
+    shape_count_pygame20 = [row[SPRITE_COUNT] for row in results_pygame20]
+    processing_time_pygame20 = [row[PROCESSING_TIME] for row in results_pygame20]
+    drawing_time_pygame20 = [row[DRAWING_TIME] for row in results_pygame20]
+    fps_pygame20 = [row[FPS] for row in results_pygame20]
+
+    shape_count_pyglet = [row[SPRITE_COUNT] for row in results_pyglet]
+    processing_time_pyglet = [row[PROCESSING_TIME] for row in results_pyglet]
+    drawing_time_pyglet = [row[DRAWING_TIME] for row in results_pyglet]
+    fps_pyglet = [row[FPS] for row in results_pyglet]
+
+    # FPS comparison
+    # Some of the initial values are often wonky, so skip those
+    plt.title("Moving and Rotating Rectangles FPS Comparison")
+    plt.plot(shape_count_arcade_buffered[4:], fps_arcade_buffered[4:], label="Arcade Buffered")
+    plt.plot(shape_count_arcade_unbuffered[4:], fps_arcade_unbuffered[4:], label="Arcade Unbuffered")
+    plt.plot(shape_count_pyglet[4:], fps_pyglet[4:], label="Pyglet")
+    plt.plot(shape_count_pygame20[4:], fps_pygame20[4:], label="Pygame")
+
+    plt.legend(loc='upper right', shadow=True, fontsize='large')
+
+    plt.ylabel('FPS')
+    plt.xlabel('Shape Count')
+
+    plt.savefig("../result_charts/shapes/fps_comparison_rotated.svg")
+    plt.clf()
+
 def main():
     file_path = os.path.dirname(os.path.abspath(__file__))
     os.chdir(file_path)
@@ -271,6 +313,7 @@ def main():
     chart_stress_test_draw_moving()
     chart_collision()
     chart_shapes()
+    chart_rotated_shapes()
 
 
 if __name__ == "__main__":

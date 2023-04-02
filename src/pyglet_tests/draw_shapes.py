@@ -43,7 +43,6 @@ class MovingEllipse(pyglet.shapes.Rectangle):
         x += self.delta_x
         y += self.delta_y
         self.position = x, y
-        self.rotation += self.delta_angle
         if x < 0 and self.delta_x < 0:
             self.delta_x *= -1
         if y < 0 and self.delta_y < 0:
@@ -70,12 +69,12 @@ class MyGame(arcade.Window):
         file_path = os.path.dirname(os.path.abspath(__file__))
         os.chdir(file_path)
 
-        self.results_file = "../../result_data/pyglet/moving_shape.csv"
+        self.results_file = "../../result_data/pyglet/moving_shapes.csv"
         self.results_image = "../../result_data/pyglet/moving_shapes.png"
 
         self.performance_timing = PerformanceTiming(results_file=self.results_file,
                                                     start_n=0,
-                                                    increment_n=1,
+                                                    increment_n=200,
                                                     end_time=60)
 
     def setup(self):
@@ -88,24 +87,20 @@ class MyGame(arcade.Window):
             y = random.randrange(0, SCREEN_HEIGHT)
             width = random.randrange(10, 30)
             height = random.randrange(10, 30)
-            angle = random.randrange(0, 360)
 
             d_x = random.randrange(-3, 4)
             d_y = random.randrange(-3, 4)
-            d_angle = random.randrange(-3, 4)
 
             red = random.randrange(256)
             green = random.randrange(256)
             blue = random.randrange(256)
-            alpha = random.randrange(256)
+            # alpha = random.randrange(256)
 
             shape = MovingEllipse(x, y, width, height,
-                                  color=(red, green, blue, alpha),
+                                  color=(red, green, blue),
                                   batch=self.batch)
-            shape.rotation = angle
             shape.delta_x = d_x
             shape.delta_y = d_y
-            shape.delta_angle = d_angle
             self.shape_list.append(shape)
 
     def on_update(self, dt):

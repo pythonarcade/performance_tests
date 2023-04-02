@@ -22,8 +22,8 @@ SPRITE_SCALING_COIN = 0.25
 SPRITE_NATIVE_SIZE = 128
 SPRITE_SIZE = int(SPRITE_NATIVE_SIZE * SPRITE_SCALING_COIN)
 
-RESULTS_FILE = "../../result_data/pygame/moving_shapes.csv"
-RESULTS_IMAGE = "../../result_data/pygame/moving_shapes.png"
+RESULTS_FILE = "../../result_data/pygame/moving_rotating_shapes.csv"
+RESULTS_IMAGE = "../../result_data/pygame/moving_rotating_shapes.png"
 SCREEN_WIDTH = 1800
 SCREEN_HEIGHT = 1000
 SCREEN_TITLE = "Pygame - Moving Shapes Stress Test"
@@ -93,7 +93,7 @@ class MyGame:
 
         self.performance_timing = PerformanceTiming(results_file=RESULTS_FILE,
                                                     start_n=0,
-                                                    increment_n=100,
+                                                    increment_n=200,
                                                     end_time=60)
 
         # Initialize Pygame

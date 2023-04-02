@@ -66,12 +66,13 @@ class MyGameCollision(arcade.Window):
         self.frame = 0
 
     def add_coins(self, amount):
-
-        # Create the coins
+        """ Create the coins """
+        # Load the texture for the coins
+        # Coin image from kenney.nl
+        coin_texture = arcade.load_texture(":resources:images/items/coinGold.png")
         for i in range(amount):
             # Create the coin instance
-            # Coin image from kenney.nl
-            coin = arcade.Sprite(":resources:images/items/coinGold.png", SPRITE_SCALING_COIN)
+            coin = arcade.Sprite(coin_texture, scale=SPRITE_SCALING_COIN)
 
             # Position the coin
             coin.center_x = random.randrange(SPRITE_SIZE, SCREEN_WIDTH - SPRITE_SIZE)
@@ -152,4 +153,4 @@ def main(method):
 
 
 if __name__ == "__main__":
-    main(1)
+    main(3)

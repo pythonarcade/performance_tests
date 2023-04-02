@@ -86,7 +86,7 @@ class MyGame:
 
         self.performance_timing = PerformanceTiming(results_file=RESULTS_FILE,
                                                     start_n=0,
-                                                    increment_n=100,
+                                                    increment_n=200,
                                                     end_time=60)
 
 
@@ -117,17 +117,17 @@ class MyGame:
             red = random.randrange(256)
             green = random.randrange(256)
             blue = random.randrange(256)
-            alpha = random.randrange(256)
+            # alpha = random.randrange(256)
 
             shape_type = random.randrange(2)
-            # shape_type = 0
+            shape_type = 0
 
             if shape_type == 0:
                 shape = Rectangle(x, y, width, height, angle, d_x, d_y,
-                                  d_angle, (red, green, blue, alpha))
+                                  d_angle, (red, green, blue))
             elif shape_type == 1:
                 shape = Ellipse(x, y, width, height, angle, d_x, d_y,
-                            d_angle, (red, green, blue, alpha))
+                            d_angle, (red, green, blue))
             # elif shape_type == 2:
             #     shape = Line(x, y, width, height, angle, d_x, d_y,
             #                  d_angle, (red, green, blue, alpha))
