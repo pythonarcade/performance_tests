@@ -55,18 +55,19 @@ class MyGame(arcade.Window):
 
         self.performance_timing = PerformanceTiming(results_file=RESULTS_FILE,
                                                     start_n=0,
-                                                    increment_n=250,
-                                                    end_time=60)
+                                                    increment_n=1000,
+                                                    end_time=180)
 
         arcade.set_background_color(arcade.color.AMAZON)
 
     def add_coins(self, amount):
 
+        texture = arcade.load_texture("../resources/coinGold.png")
         # Create the coins
         for i in range(amount):
             # Create the coin instance
             # Coin image from kenney.nl
-            coin = Coin("../resources/coinGold.png", SPRITE_SCALING_COIN)
+            coin = Coin(texture, SPRITE_SCALING_COIN)
 
             # Position the coin
             coin.center_x = random.randrange(SPRITE_SIZE, SCREEN_WIDTH - SPRITE_SIZE)

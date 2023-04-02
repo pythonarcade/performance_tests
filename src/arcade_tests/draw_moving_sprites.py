@@ -63,10 +63,11 @@ class MyGame(arcade.Window):
     def add_coins(self, amount):
 
         # Create the coins
+        texture = arcade.load_texture("../resources/coinGold.png")
         for i in range(amount):
             # Create the coin instance
             # Coin image from kenney.nl
-            coin = Coin("../resources/coinGold.png", SPRITE_SCALING_COIN)
+            coin = Coin(texture, SPRITE_SCALING_COIN)
 
             # Position the coin
             coin.center_x = random.randrange(SPRITE_SIZE, SCREEN_WIDTH - SPRITE_SIZE)

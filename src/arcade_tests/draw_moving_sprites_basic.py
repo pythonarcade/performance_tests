@@ -25,8 +25,7 @@ SCREEN_TITLE = "Arcade - Moving Sprite Stress Test"
 
 class Coin(arcade.BasicSprite):
 
-    def __init__(self):
-        texture = arcade.load_texture("../resources/coinGold.png")
+    def __init__(self, texture):
         super().__init__(texture, scale=SPRITE_SCALING_COIN)
         self.change_x = 0
         self.change_y = 0
@@ -69,10 +68,11 @@ class MyGame(arcade.Window):
     def add_coins(self, amount):
 
         # Create the coins
+        texture = arcade.load_texture("../resources/coinGold.png")
         for i in range(amount):
             # Create the coin instance
             # Coin image from kenney.nl
-            coin = Coin()
+            coin = Coin(texture)
 
             # Position the coin
             coin.center_x = random.randrange(SPRITE_SIZE, SCREEN_WIDTH - SPRITE_SIZE)

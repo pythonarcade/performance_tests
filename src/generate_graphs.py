@@ -51,11 +51,11 @@ def chart_stress_test_draw_stationary():
 
     # FPS comparison
     # Some of the initial values are often wonky, so skip those
-    plt.title("FPS Comparison")
+    plt.title("Stationary Sprites FPS Comparison")
     plt.plot(sprite_count_arcade[4:], fps_arcade[4:], label="Arcade")
     plt.plot(sprite_count_pygame20[4:], fps_pygame20[4:], label="Pygame")
 
-    plt.legend(loc='lower left', shadow=True, fontsize='large')
+    plt.legend(loc='lower right', shadow=True, fontsize='large')
 
     plt.ylabel('FPS')
     plt.xlabel('Sprite Count')
